@@ -1,4 +1,6 @@
+﻿using CarRental.Interfaces;
 using CarRental.Models;
+using CarRental.Services;   // ✅ Add this namespace for ICarService
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +9,21 @@ namespace CarRental.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICarService _carService;
 
-        public HomeController(ILogger<HomeController> logger)
+        // ✅ Only one constructor with both dependencies
+        public HomeController(ILogger<HomeController> logger, ICarService carService)
         {
             _logger = logger;
+            _carService = carService;
         }
 
+        // ✅ Show all cars in home page
         public IActionResult Index()
         {
-            return View();
+
+            var cars = _carService.GetAllCars(); // from Service -> Repository -> DB
+            return View(cars); // pass to view (List<CarDto>)
         }
 
         public IActionResult Privacy()

@@ -1,6 +1,8 @@
 using CarRental.Database;
 using CarRental.Interfaces;
+using CarRental.Repositories;
 using CarRental.Repositories.Implementations;
+using CarRental.Services;
 using CarRental.Services.Implementations;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +22,8 @@ namespace CarRental
             builder.Services.AddScoped<ICustomerService,CustomerService>();
             builder.Services.AddScoped<ICustomerRepository,CustomerRepository>();
 
+            builder.Services.AddScoped<ICarService, CarService>();
+            builder.Services.AddScoped<ICarRepository, CarRepository>();
 
             var app = builder.Build();
 
