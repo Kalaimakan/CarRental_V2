@@ -18,6 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Car\Add.cshtml" />
+    <None Include="Views\Car\Details.cshtml" />
+    <None Include="Views\Car\Update.cshtml" />
+    <None Include="Views\Car\ViewCar.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

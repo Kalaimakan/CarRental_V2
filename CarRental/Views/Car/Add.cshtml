@@ -1,0 +1,138 @@
+﻿@model CarRental.ViewModels.CarViewModel
+
+<div class="container py-5">
+    <div class="card mx-auto shadow-lg rounded-4" style="max-width: 700px; border: none; background: #1f1f2e;">
+        <div class="card-header text-center py-4" style="background: linear-gradient(90deg,#4e54c8,#8f94fb); border-radius: .75rem .75rem 0 0;">
+            <h2 class="text-white mb-0"><i class="bi bi-car-front-fill me-2"></i>Add Car</h2>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="post" enctype="multipart/form-data" id="carForm">
+
+                <!-- Brand & Model -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="CarBrand" class="form-label text-white">Brand</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark text-white border-light"><i class="bi bi-shop"></i></span>
+                            <input asp-for="CarBrand" class="form-control bg-dark text-white border-light" placeholder="e.g. Toyota" />
+                        </div>
+                        <span asp-validation-for="CarBrand" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CarModel" class="form-label text-white">Model</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark text-white border-light"><i class="bi bi-hash"></i></span>
+                            <input asp-for="CarModel" class="form-control bg-dark text-white border-light" placeholder="e.g. Corolla" />
+                        </div>
+                        <span asp-validation-for="CarModel" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Colour & Seats -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="CarColour" class="form-label text-white">Colour</label>
+                        <input asp-for="CarColour" class="form-control bg-dark text-white border-light" placeholder="e.g. Red" />
+                        <span asp-validation-for="CarColour" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-white">Seats</label>
+                        <input asp-for="Seats" type="number" min="2" class="form-control bg-dark text-white border-light" placeholder="4" />
+                    </div>
+                </div>
+
+                <!-- Fuel & Transmission -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-white">Fuel Type</label>
+                        <select asp-for="FuelType" class="form-select bg-dark text-white border-light">
+                            <option>Petrol</option>
+                            <option>Diesel</option>
+                            <option>Hybrid</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-white">Transmission</label>
+                        <select asp-for="Transmission" class="form-select bg-dark text-white border-light">
+                            <option>Auto</option>
+                            <option>Manual</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- AC & Status -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-white">AC</label>
+                        <select asp-for="HasAC" class="form-select bg-dark text-white border-light">
+                            <option value="true">AC</option>
+                            <option value="false">Non-AC</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center mt-4">
+                        <div class="form-check form-switch">
+                            <input asp-for="Status" class="form-check-input bg-light border-light" />
+                            <label asp-for="Status" class="form-check-label text-white">Available</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="PricePerDay" class="form-label text-white">Price per Day</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-white border-light">₹</span>
+                        <input asp-for="PricePerDay" class="form-control bg-dark text-white border-light" placeholder="e.g. 2500" />
+                    </div>
+                    <span asp-validation-for="PricePerDay" class="text-danger small"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label text-white">Description</label>
+                    <textarea asp-for="Description" rows="3" class="form-control bg-dark text-white border-light" placeholder="Write something about the car..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <!-- Images -->
+                <div class="mb-4">
+                    <label asp-for="ImageFiles" class="form-label text-white">Upload Images</label>
+                    <input asp-for="ImageFiles" type="file" class="form-control bg-dark text-white border-light" multiple />
+                    <span asp-validation-for="ImageFiles" class="text-danger small"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-gradient w-100 fw-bold py-2" id="submitBtn" style="background: linear-gradient(90deg,#36d1dc,#5b86e5); color:white;">
+                    💾 Add Car
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div id="success-msg" class="alert alert-success mt-4 text-center mx-auto" style="max-width: 700px;">
+            <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+        </div>
+
+        <script>
+            setTimeout(() => document.getElementById('success-msg')?.remove(), 5000);
+        </script>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("carForm").addEventListener("submit", function () {
+            const btn = document.getElementById("submitBtn");
+            btn.disabled = true;
+            btn.innerText = "⏳ Saving...";
+        });
+    </script>
+}

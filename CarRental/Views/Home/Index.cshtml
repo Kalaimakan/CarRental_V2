@@ -1,8 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<CarRental.DTOs.CarDto>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container my-5">
+    <h2 class="text-center text-white mb-5">🚗 Available Cars</h2>
+
+    <div class="row g-4">
+        @foreach (var car in Model)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card car-card h-100 text-white border-0 shadow-sm rounded-3">
+
+                    <!-- Car Image -->
+                    <div class="car-image-container position-relative">
+                        <img src="~/images/@(car.Images.FirstOrDefault()?.FileName ?? "default-car.png")"
+                             class="card-img-top" alt="@car.CarModel" />
+
+                        @if (!car.Status)
+                        {
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-2 rounded-pill">
+                                Not Available
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success position-absolute top-0 start-0 m-2 rounded-pill">
+                                Available
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">@car.CarBrand @car.CarModel</h5>
+
+                        <p class="card-text mb-2 small">
+                            <i class="bi bi-people-fill me-1"></i>@car.Seats seats<br />
+                            <i class="bi bi-fuel-pump me-1"></i>@car.FuelType<br />
+                            <i class="bi bi-gear-fill me-1"></i>@car.Transmission<br />
+                            <i class="bi bi-snow me-1"></i>@(car.HasAC ? "AC" : "Non-AC")
+                        </p>
+
+                        <p class="card-text mt-auto mb-3 fw-semibold fs-5">
+                            Rs. @car.PricePerDay / day
+                        </p>
+
+                        <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id"
+                           class="btn btn-outline-warning w-100 fw-bold">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

@@ -1,0 +1,86 @@
+﻿@model CarRental.DTOs.CarDto
+
+<div class="container mt-5" style="max-width: 900px;">
+    <div class="card bg-dark text-white shadow-lg rounded-4 border-0">
+        <div class="card-body p-4">
+
+            <h2 class="card-title mb-3 fw-bold text-warning">@Model.CarBrand @Model.CarModel</h2>
+
+            <div class="row mb-4">
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Seats:</strong> @Model.Seats</p>
+                    <p class="mb-1"><strong>Fuel:</strong> @Model.FuelType</p>
+                    <p class="mb-1"><strong>AC:</strong> @(Model.HasAC ? "Available" : "Not Available")</p>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Price per Day:</strong> <span class="text-warning fw-semibold">Rs. @Model.PricePerDay</span></p>
+                    <p class="mb-1"><strong>Transmission:</strong> @Model.Transmission</p>
+                    <p class="mb-1">
+                        <strong>Status:</strong>
+                        @if (Model.Status)
+                        {
+                            <span class="badge bg-success">Available ✅</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Not Available ❌</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <p class="card-text text-secondary mb-4">@Model.Description</p>
+
+            @if (Model.Images != null && Model.Images.Any())
+            {
+                <div id="carCarousel" class="carousel slide rounded shadow mb-3" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner rounded">
+                        @for (int i = 0; i < Model.Images.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="~/images/@Model.Images[i].FileName" class="d-block w-100 rounded"
+                                     style="height: 400px; object-fit: cover;" alt="Car Image @i">
+                            </div>
+                        }
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+                    <div class="carousel-indicators mt-3">
+                        @for (int i = 0; i < Model.Images.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"
+                                    aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted text-center fs-5 mt-3">No images available for this car.</p>
+            }
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">
+                    ← Back
+                </a>
+                @if (Model.Status)
+                {
+                    <a asp-controller="Booking" asp-action="Create" asp-route-carId="@Model.Id"
+                       class="btn btn-warning fw-bold rounded-pill px-4">
+                        Book Now
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
