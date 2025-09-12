@@ -4,6 +4,7 @@ using CarRental.Repositories;
 using CarRental.Repositories.Implementations;
 using CarRental.Services;
 using CarRental.Services.Implementations;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental
@@ -19,8 +20,8 @@ namespace CarRental
 
             builder.Services.AddDbContext<AppDbcontext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("CarRentalConnection")));
 
-            builder.Services.AddScoped<ICustomerService,CustomerService>();
-            builder.Services.AddScoped<ICustomerRepository,CustomerRepository>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarRepository, CarRepository>();
@@ -42,9 +43,13 @@ namespace CarRental
 
             app.UseAuthorization();
 
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Home}/{action=Index}/{id?}");
+
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                name: "Default",
+                pattern: "{controller=AdminDashboard}/{action=AdminDashboard}/{id?}");
 
             app.Run();
         }

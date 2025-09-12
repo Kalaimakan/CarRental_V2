@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCars : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,24 @@ namespace CarRental.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_cars", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "customers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LicenceNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +80,9 @@ namespace CarRental.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CarImages");
+
+            migrationBuilder.DropTable(
+                name: "customers");
 
             migrationBuilder.DropTable(
                 name: "cars");
