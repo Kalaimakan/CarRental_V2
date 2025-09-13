@@ -1,0 +1,36 @@
+﻿@model CarRental.ViewModels.PaymentViewModel
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4">
+        <h2 class="mb-4 text-center text-primary">Add Payment</h2>
+
+        <form asp-action="Add" method="post">
+            <div class="mb-3">
+                <label asp-for="BookingId" class="form-label">Booking ID</label>
+                <input asp-for="BookingId" class="form-control" />
+                <span asp-validation-for="BookingId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Amount" class="form-label">Amount</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+                <select asp-for="PaymentMethod" class="form-control">
+                    <option>Credit Card</option>
+                    <option>PayPal</option>
+                    <option>Cash</option>
+                </select>
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" asp-controller="Booking" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-success">Add Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
