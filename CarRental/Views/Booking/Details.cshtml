@@ -1,0 +1,34 @@
+﻿@model List<CarRental.DTOs.BookingDto>
+
+<div class="container mt-5">
+    <h2>Bookings</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Car</th>
+                <th>Customer</th>
+                <th>Dates</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.CarBrand @b.CarModel</td>
+                    <td>@b.CustomerName</td>
+                    <td>@b.StartDate.ToShortDateString() - @b.EndDate.ToShortDateString()</td>
+                    <td>Rs. @b.TotalPrice</td>
+                    <td>@b.Status</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@b.Id" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Cancel" asp-route-id="@b.Id" class="btn btn-danger btn-sm">Cancel</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

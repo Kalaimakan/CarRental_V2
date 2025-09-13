@@ -12,5 +12,6 @@ namespace CarRental.Database
         public DbSet<Car> cars { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<Customer> customers { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 }

@@ -26,6 +26,9 @@ namespace CarRental
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarRepository, CarRepository>();
 
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
