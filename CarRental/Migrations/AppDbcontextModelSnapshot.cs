@@ -154,6 +154,31 @@ namespace CarRental.Migrations
                     b.ToTable("customers");
                 });
 
+            modelBuilder.Entity("CarRental.Models.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("CarRental.Models.Booking", b =>
                 {
                     b.HasOne("CarRental.Models.Car", "Car")
@@ -182,6 +207,17 @@ namespace CarRental.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("CarRental.Models.Payment", b =>
+                {
+                    b.HasOne("CarRental.Models.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("CarRental.Models.Car", b =>
