@@ -130,7 +130,7 @@ namespace CarRental.Controllers
         //    return View(dto);
         //}
 
-        //otp
+        //otp add
         public IActionResult Add()
         {
             return View();
