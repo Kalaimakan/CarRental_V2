@@ -1,86 +1,122 @@
 ﻿@model CarRental.DTOs.CarDto
 
-<div class="container mt-5" style="max-width: 900px;">
-    <div class="card bg-dark text-white shadow-lg rounded-4 border-0">
-        <div class="card-body p-4">
+<div class="container my-5">
+    <div class="card car-detail-card shadow-lg rounded-4 p-3">
+        <div class="row g-3">
+            <!-- Left: Carousel -->
+            <div class="col-lg-6">
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    <div id="carCarousel" class="carousel slide rounded shadow" data-bs-ride="carousel" data-bs-interval="3000">
+                        <div class="carousel-inner rounded">
+                            @for (int i = 0; i < Model.Images.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="~/images/@Model.Images[i].FileName" class="d-block w-100 rounded"
+                                         style="height:400px; object-fit: cover;" alt="Car Image @i">
+                                </div>
+                            }
+                        </div>
 
-            <h2 class="card-title mb-3 fw-bold text-warning">@Model.CarBrand @Model.CarModel</h2>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+                        </button>
 
-            <div class="row mb-4">
-                <div class="col-md-6 mb-2">
-                    <p class="mb-1"><strong>Seats:</strong> @Model.Seats</p>
-                    <p class="mb-1"><strong>Fuel:</strong> @Model.FuelType</p>
-                    <p class="mb-1"><strong>AC:</strong> @(Model.HasAC ? "Available" : "Not Available")</p>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <p class="mb-1"><strong>Price per Day:</strong> <span class="text-warning fw-semibold">Rs. @Model.PricePerDay</span></p>
-                    <p class="mb-1"><strong>Transmission:</strong> @Model.Transmission</p>
-                    <p class="mb-1">
-                        <strong>Status:</strong>
-                        @if (Model.Status)
-                        {
-                            <span class="badge bg-success">Available ✅</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger">Not Available ❌</span>
-                        }
-                    </p>
-                </div>
+                        <div class="carousel-indicators mt-3">
+                            @for (int i = 0; i < Model.Images.Count; i++)
+                            {
+                                <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></button>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <img src="~/images/default-car.png" class="d-block w-100 rounded" style="height:400px; object-fit:cover;" alt="Default Car">
+                }
             </div>
 
-            <p class="card-text text-secondary mb-4">@Model.Description</p>
+            <!-- Right: Details -->
+            <div class="col-lg-6 d-flex flex-column justify-content-between">
+                <div>
+                    <h2 class="fw-bold text-warning">@Model.CarBrand @Model.CarModel</h2>
+                    <p class="text-secondary mb-4">@Model.Description</p>
 
-            @if (Model.Images != null && Model.Images.Any())
-            {
-                <div id="carCarousel" class="carousel slide rounded shadow mb-3" data-bs-ride="carousel" data-bs-interval="3000">
-                    <div class="carousel-inner rounded">
-                        @for (int i = 0; i < Model.Images.Count; i++)
-                        {
-                            <div class="carousel-item @(i == 0 ? "active" : "")">
-                                <img src="~/images/@Model.Images[i].FileName" class="d-block w-100 rounded"
-                                     style="height: 400px; object-fit: cover;" alt="Car Image @i">
-                            </div>
-                        }
-                    </div>
-
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-
-                    <div class="carousel-indicators mt-3">
-                        @for (int i = 0; i < Model.Images.Count; i++)
-                        {
-                            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"
-                                    aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
-                        }
+                    <div class="row mb-3 text-light">
+                        <div class="col-6">
+                            <p><strong>Seats:</strong> @Model.Seats</p>
+                            <p><strong>Fuel:</strong> @Model.FuelType</p>
+                            <p><strong>AC:</strong> @(Model.HasAC ? "Available" : "Not Available")</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Price per Day:</strong> <span class="text-warning fw-semibold">Rs. @Model.PricePerDay</span></p>
+                            <p><strong>Transmission:</strong> @Model.Transmission</p>
+                            <p>
+                                <strong>Status:</strong>
+                                @if (Model.Status)
+                                {
+                                    <span class="badge bg-success glow-badge">Available ✅</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger glow-badge">Not Available ❌</span>
+                                }
+                            </p>
+                        </div>
                     </div>
                 </div>
-            }
-            else
-            {
-                <p class="text-muted text-center fs-5 mt-3">No images available for this car.</p>
-            }
 
-            <div class="d-flex justify-content-between mt-4">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">
-                    ← Back
-                </a>
-                @if (Model.Status)
-                {
-                    <a asp-controller="Booking" asp-action="Add" asp-route-carId="@Model.Id"
-                       class="btn btn-warning fw-bold rounded-pill px-4">
-                        Book Now
-                    </a>
-                }
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
+                    @if (Model.Status)
+                    {
+                        <a asp-controller="Booking" asp-action="Add" asp-route-carId="@Model.Id"
+                           class="btn btn-primary fw-bold rounded-pill px-4">Book Now</a>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .car-detail-card {
+        background-color: #121212;
+        border: 1px solid #ff0000;
+        box-shadow: 0 0 10px rgba(255,0,0,0.3);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
 
+        .car-detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px 10px rgba(255,0,0,0.6);
+        }
+
+    .carousel-inner img {
+        border-radius: 10px;
+    }
+
+    .glow-badge {
+        text-shadow: 0 0 5px #000;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #ff0000;
+        border: none;
+        font-weight: 600;
+    }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 0px 10px 3px #ff0000;
+        }
+
+    .text-secondary {
+        color: #adb5bd !important;
+    }
+</style>
