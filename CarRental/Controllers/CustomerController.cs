@@ -15,6 +15,12 @@ namespace CarRental.Controllers
         {
             _service = service;
         }
+
+        public IActionResult RegisterCustomer()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> ViewCustomer()
         {
             var customer = await _service.GetAllCustomersAsync();
