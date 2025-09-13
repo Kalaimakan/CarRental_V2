@@ -32,6 +32,10 @@ namespace CarRental
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
+            builder.Services.AddScoped<IOtpService, OtpService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
+            builder.Services.AddMemoryCache();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -49,13 +53,13 @@ namespace CarRental
 
             app.UseAuthorization();
 
-            //app.MapControllerRoute(
-            //    name: "default",
-            //    pattern: "{controller=Home}/{action=Index}/{id?}");
-
             app.MapControllerRoute(
-                name: "Default",
-                pattern: "{controller=AdminDashboard}/{action=AdminDashboard}/{id?}");
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            //app.MapControllerRoute(
+            //    name: "Default",
+            //    pattern: "{controller=AdminDashboard}/{action=AdminDashboard}/{id?}");
 
             app.Run();
         }

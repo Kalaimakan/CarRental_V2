@@ -1,0 +1,176 @@
+﻿@* @model CarRental.ViewModels.OtpViewModel
+
+<h2>Enter OTP</h2>
+<form asp-action="VerifyOtpRegister" method="post">
+    <input type="hidden" asp-for="Email" />
+    <div>
+        <label>OTP</label>
+        <input asp-for="Otp" />
+    </div>
+    <button type="submit">Verify</button>
+</form> *@
+
+
+
+@model CarRental.ViewModels.OtpViewModel
+
+<div class="content-container d-flex justify-content-center align-items-center vh-100 bg-dark">
+    <div class="otp-card text-white p-5 rounded shadow-lg">
+        <h2 class="text-center mb-3">🔒 Verify Your Account</h2>
+        <p class="text-center mb-4">Enter the 6-digit OTP sent to <strong>@Model.Email</strong></p>
+
+        <form asp-action="VerifyOtpRegister" method="post" class="text-center">
+            <input type="hidden" asp-for="Email" />
+            <div class="mb-3">
+                <label for="otp" class="form-label">OTP</label>
+                <input asp-for="Otp" class="form-control otp-input mx-auto" style="max-width: 200px;" />
+            </div>
+            <button type="submit" class="btn btn-danger btn-verify mt-3">Verify</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #111; /* Dark background */
+    }
+
+    .otp-card {
+        background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+        border: 2px solid #ff0000;
+        box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .otp-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 0, 0, 0.8);
+        }
+
+    .otp-input {
+        background-color: #111;
+        border: 1px solid #ff0000;
+        color: #fff;
+        text-align: center;
+    }
+
+        .otp-input:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 10px #ff0000;
+            outline: none;
+        }
+
+    .btn-verify {
+        background-color: #ff0000;
+        border: none;
+        padding: 10px 30px;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+        .btn-verify:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 0, 0, 0.6);
+        }
+</style>
+
+
+
+
+
+
+
+
+@*  @model CarRental.ViewModels.OtpViewModel
+
+<div class="content-container text-white">
+    <div class="container my-5">
+        <h2 class="text-center mb-4">🔒 Verify Your Account</h2>
+        <p class="text-center mb-5">Enter the 6-digit OTP sent to <strong>@Model.Email</strong></p>
+
+        <form asp-action="VerifyOtpRegister" method="post" class="text-center">
+            <input type="hidden" asp-for="Email" />
+
+            <div class="otp-inputs d-flex justify-content-center mb-4">
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+                <input type="text" maxlength="1" class="otp-box" name="OtpDigits" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-50 fw-bold">Verify</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .otp-inputs {
+        gap: 10px;
+    }
+
+    .otp-box {
+        width: 50px;
+        height: 60px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        border: 2px solid var(--primary-red);
+        border-radius: 8px;
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        outline: none;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+    }
+
+    .otp-box:focus {
+        border-color: var(--primary-red);
+        box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.6);
+        transform: scale(1.05);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-red);
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: transparent;
+        box-shadow: 0 0px 7px 3px var(--primary-red);
+        transform: translateY(-2px);
+    }
+</style>
+
+<script>
+    // Auto move to next input
+    document.querySelectorAll(".otp-box").forEach((input, index, inputs) => {
+        input.addEventListener("input", () => {
+            if (input.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !input.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+</script>
+ *@
