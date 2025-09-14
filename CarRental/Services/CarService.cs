@@ -1,6 +1,7 @@
 ﻿using CarRental.DTOs;
 using CarRental.Interfaces;
 using CarRental.Models;
+using CarRental.Repositories;
 using CarRental.ViewModels;
 using Microsoft.VisualBasic.FileIO;
 using System.Security.Cryptography;
@@ -162,4 +163,52 @@ public class CarService : ICarService
             car.Images.Add(new CarImage { Id = Guid.NewGuid(), FileName = fileName, CarId = car.Id });
         }
     }
-}
+
+    //public async Task<List<CarDto>> SearchCarsAsync(string searchTerm)
+    //{
+    //    if (string.IsNullOrWhiteSpace(searchTerm))
+    //        return await repo.GetAllCarsAsync(); 
+
+    //    searchTerm = searchTerm.ToLower();
+
+    //    // Attempt to parse PricePerDay if the searchTerm is numeric
+    //    if (int.TryParse(searchTerm, out int pricePerDay))
+    //    {
+    //        // Filter cars by brand, model or price per day if searchTerm is numeric
+    //        var cars = await repo.SearchCarsAsync(searchTerm, pricePerDay);
+
+    //        return cars.Select(c => new CarDto
+    //        {
+              
+    //            CarBrand = c.CarBrand,
+    //            CarModel = c.CarModel,
+    //            PricePerDay = c.PricePerDay
+    //        }).ToList();
+    //    }
+
+    //    var filteredCars = await repo.SearchCarsAsync(searchTerm);
+
+    //    return filteredCars.Select(c => new CarDto
+    //    {
+    //        Id = c.Id,
+    //        CarBrand = c.CarBrand,
+    //        CarModel = c.CarModel,
+    //        PricePerDay = c.PricePerDay
+    //    }).ToList();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

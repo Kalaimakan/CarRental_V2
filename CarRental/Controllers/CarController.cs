@@ -80,8 +80,10 @@ namespace CarRental.Controllers
             if (car == null) return NotFound();
 
             return View(car);
-
         }
+
+        
+
     }
 
 }
