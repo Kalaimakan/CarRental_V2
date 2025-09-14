@@ -12,7 +12,6 @@ namespace CarRental.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _service;
-
         private readonly IOtpService _otpService;
         private readonly IEmailService _emailService;
 
@@ -23,26 +22,31 @@ namespace CarRental.Controllers
             _emailService = emailService;
         }
 
-        //testing
-        [HttpGet]
-        public IActionResult TestEmail()
-        {
-            try
-            {
-                _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
-                return Content("Email sent successfully!");
-            }
-            catch (Exception ex)
-            {
-                return Content("Email sending failed: " + ex.Message);
-            }
-        }
+        //Testing Gmail OTP
 
+        //[HttpGet]
+        //public IActionResult TestEmail()
+        //{
+        //    try
+        //    {
+        //        _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
+        //        return Content("Email sent successfully!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content("Email sending failed: " + ex.Message);
+        //    }
+        //}
+
+
+        //register page
         public IActionResult RegisterCustomer()
         {
             return View();
         }
 
+
+        //register Customer
         [HttpPost]
         public IActionResult Register(CustomerViewModel model)
         {
@@ -60,18 +64,18 @@ namespace CarRental.Controllers
                 ModelState.AddModelError("", "Could not send OTP email: " + ex.Message);
                 return View(model);
             }
-
             TempData["RegisterData"] = JsonSerializer.Serialize(model);
 
-            // Redirect to VerifyOtp page
             return RedirectToAction("VerifyOtpRegister", new { email = model.Email });
         }
+
 
         [HttpGet]
         public IActionResult VerifyOtpRegister(string email)
         {
             return View(new OtpViewModel { Email = email });
         }
+
 
         [HttpPost]
         public async Task<IActionResult> VerifyOtpRegister(OtpViewModel model)
@@ -82,7 +86,6 @@ namespace CarRental.Controllers
                 if (dtoJson != null)
                 {
                     var registerData = JsonSerializer.Deserialize<CustomerViewModel>(dtoJson);
-
                     var dto = new CustomerDto
                     {
                         Name = registerData.Name,
@@ -93,13 +96,10 @@ namespace CarRental.Controllers
                         UserName = registerData.Username,
                         Password = registerData.Password
                     };
-
                     await _service.AddCustomerAsync(dto);
                 }
-
                 return RedirectToAction("Success");
             }
-
             ModelState.AddModelError("", "Invalid OTP");
             return View(model);
         }
@@ -109,26 +109,12 @@ namespace CarRental.Controllers
             return View();
         }
 
+        //View Customer
         public async Task<IActionResult> ViewCustomer()
         {
             var customer = await _service.GetAllCustomersAsync();
             return View(customer);
         }
-
-        //public IActionResult Add()
-        //{
-        //    return View();
-        //}
-        //public async Task<IActionResult> Add(CustomerDto dto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _service.AddCustomerAsync(dto);
-        //        TempData["SuccessMessage"] = $"{dto.Name} Added successfully!";
-        //        return RedirectToAction("ViewCustomer");
-        //    }
-        //    return View(dto);
-        //}
 
         //otp add
         public IActionResult Add()
@@ -136,15 +122,14 @@ namespace CarRental.Controllers
             return View();
         }
 
+        //Add Customer
         [HttpPost]
         public async Task<IActionResult> Add(CustomerDto dto)
         {
             if (ModelState.IsValid)
             {
-                // 1. Generate OTP for new customer
                 var otp = _otpService.GenerateOtp(dto.Email);
 
-                // 2. Send OTP email
                 try
                 {
                     _emailService.SendEmail(dto.Email, "Welcome! Your OTP Code", $"Hello {dto.Name}, your OTP is: {otp}");
@@ -154,17 +139,14 @@ namespace CarRental.Controllers
                     ModelState.AddModelError("", "Customer added but OTP email could not be sent: " + ex.Message);
                 }
 
-                // 3. Save customer in the database
                 await _service.AddCustomerAsync(dto);
-
-                // 4. Success message and redirect to ViewCustomer
                 TempData["SuccessMessage"] = $"{dto.Name} added successfully";
                 return RedirectToAction("VerifyOtpAdmin", new { email = dto.Email });
             }
-
             return View(dto);
         }
 
+        //verify otp for Admin
         [HttpGet]
         public IActionResult VerifyOtpAdmin(string email)
         {
@@ -180,7 +162,6 @@ namespace CarRental.Controllers
                 if (dtoJson != null)
                 {
                     var registerData = JsonSerializer.Deserialize<CustomerViewModel>(dtoJson);
-
                     var dto = new CustomerDto
                     {
                         Name = registerData.Name,
@@ -191,13 +172,10 @@ namespace CarRental.Controllers
                         UserName = registerData.Username,
                         Password = registerData.Password
                     };
-
                     await _service.AddCustomerAsync(dto);
                 }
-
                 return RedirectToAction("ViewCustomer");
             }
-
             ModelState.AddModelError("", "Invalid OTP");
             return View(model);
         }
@@ -212,8 +190,8 @@ namespace CarRental.Controllers
             return View(customer);
         }
 
-        [HttpPost]
 
+        //Get Customer for Update
         [HttpGet]
         public async Task<IActionResult> Update(Guid id)
         {
@@ -224,18 +202,6 @@ namespace CarRental.Controllers
             }
             return View(customer);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Update(CustomerDto dto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _service.UpdateCustomerAsync(dto);
-        //        return RedirectToAction("ViewCustomer");
-        //    }
-        //    return View(dto);
-        //}
-
 
 
         // Type 01 SuccessMessage ============
@@ -254,6 +220,8 @@ namespace CarRental.Controllers
             return View(dto);
         }
 
+
+        //Delete Customer
         public async Task<IActionResult> Delete(Guid id)
         {
             var customer = await _service.GetCustomerIdAsync(id);
@@ -266,23 +234,7 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewCustomer");
         }
 
-        ////[HttpGet("search")]
-        ////public async Task<IActionResult> SearchCustomers([FromQuery] string query)
-        ////{
-        ////    var results = await _service.SearchCustomersAsync(query);
-        ////    return Ok(results);
-        ////}
-
-        //[HttpGet("search")]
-        //public async Task<IActionResult> SearchCustomers([FromQuery] string query)
-        //{
-        //    if (string.IsNullOrWhiteSpace(query))
-        //        return BadRequest("Search term cannot be empty.");
-
-        //    var results = await _service.SearchCustomersAsync(query);
-        //    return Ok(results);
-        //}
-
+        //Filter Customer
         [HttpGet]
         public async Task<IActionResult> SearchCustomers([FromQuery] string query)
         {

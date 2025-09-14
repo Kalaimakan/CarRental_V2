@@ -6,7 +6,7 @@ namespace CarRental.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly string _fromEmail = "kalaimakan1510@gmail.com"; // your Gmail
+        private readonly string _fromEmail = "kalaimakan1510@gmail.com";
         private readonly string _appPassword = "ltorbirocvxrhrvd";
         public void SendEmail(string to, string subject, string body)
         {
