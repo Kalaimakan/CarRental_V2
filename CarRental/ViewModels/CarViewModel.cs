@@ -21,7 +21,7 @@ namespace CarRental.ViewModels
 
         public List<IFormFile> ImageFiles { get; set; }
 
-        public List<CarImageDto> ExistingImages { get; set; } = new();
+        public List<string> ExistingImages { get; set; } = new List<string>();
     }
 }
 

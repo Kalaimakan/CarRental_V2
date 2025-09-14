@@ -1,116 +1,137 @@
 ﻿@model CarRental.ViewModels.CarViewModel
 
-<h2 class="text-white text-center mt-4">Update Car</h2>
+<div class="container my-5">
+    <div class="card shadow-lg border-0"
+         style="background-color: rgba(18,18,18,0.85); backdrop-filter: blur(12px); border-radius: 1rem;">
+        <div class="card-header text-white"
+             style="background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(255,0,0,0.3);">
+            <h3 class="mb-0">✏️ Edit Car</h3>
+        </div>
 
-<form asp-action="Update" method="post" enctype="multipart/form-data" class="p-4 rounded shadow" style="background-color: #1e1e2f; color: white; max-width: 700px; margin: auto;">
-    <input type="hidden" asp-for="Id" />
+        <div class="card-body text-white">
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
 
-    <div class="mb-3">
-        <label asp-for="CarBrand" class="form-label">Car Brand</label>
-        <input asp-for="CarBrand" class="form-control bg-dark text-white" />
-        <span asp-validation-for="CarBrand" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CarModel" class="form-label">Car Model</label>
-        <input asp-for="CarModel" class="form-control bg-dark text-white" />
-        <span asp-validation-for="CarModel" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CarColour" class="form-label">Car Colour</label>
-        <input asp-for="CarColour" class="form-control bg-dark text-white" />
-        <span asp-validation-for="CarColour" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Seats</label>
-        <input asp-for="Seats" class="form-control" type="number" min="2" placeholder="Enter seat count" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Fuel Type</label>
-        <select asp-for="FuelType" class="form-control">
-            <option>Petrol</option>
-            <option>Diesel</option>
-            <option>Hybrid</option>
-            <option>Electric</option>
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Transmission</label>
-        <select asp-for="Transmission" class="form-control">
-            <option>Auto</option>
-            <option>Manual</option>
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">AC</label>
-        <select asp-for="HasAC" class="form-control">
-            <option>AC</option>
-            <option>Non-AC</option>
-        </select>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="PricePerDay" class="form-label">Price per Day</label>
-        <input asp-for="PricePerDay" class="form-control bg-dark text-white" />
-        <span asp-validation-for="PricePerDay" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label">Status</label>
-        <select asp-for="Status" class="form-select bg-dark text-white">
-            <option value="true">Available</option>
-            <option value="false">Not Available</option>
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">Description</label>
-        <textarea asp-for="Description" class="form-control bg-dark text-white"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Existing Images</label>
-        <div class="d-flex flex-wrap gap-2">
-            @if (Model.ExistingImages != null && Model.ExistingImages.Any())
-            {
-                foreach (var img in Model.ExistingImages)
-                {
-                    <div class="text-center">
-                        <img src="~/images/@img.FileName" width="100" class="rounded shadow-sm mb-1" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Brand</label>
+                        <input asp-for="CarBrand" class="form-control custom-input" />
                     </div>
-                }
-            }
-            else
-            {
-                <span class="text-muted">No existing images</span>
-            }
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Model</label>
+                        <input asp-for="CarModel" class="form-control custom-input" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Colour</label>
+                        <input asp-for="CarColour" class="form-control custom-input" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Seats</label>
+                        <input asp-for="Seats" class="form-control custom-input" />
+                    </div>
+
+                    <!-- Fuel Type & Transmission -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Fuel Type</label>
+                        <input asp-for="FuelType" class="form-control custom-input" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Transmission</label>
+                        <input asp-for="Transmission" class="form-control custom-input" />
+                    </div>
+
+                    <!-- Price under Fuel Type -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Price Per Day</label>
+                        <input asp-for="PricePerDay" class="form-control custom-input" />
+                    </div>
+
+                    <!-- AC + Status on the right side -->
+                    <div class="col-md-6 d-flex justify-content-start align-items-center">
+                        <div class="form-check me-4">
+                            <input asp-for="HasAC" type="checkbox" class="form-check-input" />
+                            <label class="form-check-label fw-bold">Has AC</label>
+                        </div>
+                        <div class="form-check">
+                            <input asp-for="Status" type="checkbox" class="form-check-input" />
+                            <label class="form-check-label fw-bold">Available</label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea asp-for="Description" rows="3" class="form-control custom-input"></textarea>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Upload New Images</label>
+                        <input asp-for="ImageFiles" type="file" multiple class="form-control custom-input" />
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Existing Images</label><br />
+                        @foreach (var img in Model.ExistingImages)
+                        {
+                            <img src="~/images/@img" width="100" class="me-2 mb-2 rounded border border-light"
+                                 style="box-shadow: 0 0 5px rgba(255,0,0,0.6);" />
+                        }
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">
+                        <i class="bi bi-save me-2"></i> Update
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="ImageFiles" class="form-label">Upload New Images</label>
-        <input asp-for="ImageFiles" type="file" class="form-control bg-dark text-white" multiple />
-        <span asp-validation-for="ImageFiles" class="text-danger"></span>
-        <small class="text-muted">* New uploads will replace existing images</small>
-    </div>
-
-
-    <div class="mt-4">
-        <button type="submit" class="btn btn-outline-light w-100 fw-bold">
-            💾 Save Changes
-        </button>
-    </div>
-</form>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+<style>
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
     }
-}
+
+    body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+    }
+
+    /* Input Fields */
+    .custom-input {
+        background-color: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,0,0,0.4);
+        color: var(--light-text);
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:focus {
+            background-color: rgba(0,0,0,0.7);
+            border-color: var(--primary-red);
+            box-shadow: 0 0 7px 2px rgba(255,0,0,0.6);
+            color: #fff;
+        }
+
+    label {
+        color: var(--light-text);
+    }
+
+    /* Button */
+    .btn-primary {
+        background-color: var(--primary-red);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            border: 1px solid var(--primary-red);
+            box-shadow: 0 0 10px rgba(255,0,0,0.8);
+            transform: scale(1.05);
+        }
+</style>
