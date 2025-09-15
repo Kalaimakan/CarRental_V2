@@ -69,8 +69,9 @@ public class CarService : ICarService
     public void UpdateCar(CarViewModel model)
     {
         var car = repo.GetById(model.Id);
-        if (car == null) return;
+        if (car == null) throw new Exception("Car not found!");
 
+        // Update fields
         car.CarBrand = model.CarBrand;
         car.CarModel = model.CarModel;
         car.CarColour = model.CarColour;
@@ -82,15 +83,29 @@ public class CarService : ICarService
         car.Status = model.Status;
         car.Description = model.Description;
 
-        if (model.ImageFiles != null && model.ImageFiles.Any())
+        // Handle new images
+        if (model.ImageFiles != null && model.ImageFiles.Count > 0)
         {
-            foreach (var img in car.Images)
+            foreach (var file in model.ImageFiles)
             {
-                var path = Path.Combine(env.WebRootPath, "images", img.FileName);
-                if (File.Exists(path)) File.Delete(path);
+                if (file.Length > 0)
+                {
+                    var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(env.WebRootPath, "images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    car.Images.Add(new CarImage
+                    {
+                        Id = Guid.NewGuid(),
+                        FileName = fileName,
+                        CarId = car.Id
+                    });
+                }
             }
-            car.Images.Clear();
-            SaveImages(model.ImageFiles, car);
         }
 
         repo.Update(car);

@@ -34,24 +34,25 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult Update(Guid id)
         {
-            var dto = service.GetCarById(id);
-            if (dto == null) return NotFound();
+            var car = service.GetCarById(id);
+            if (car == null) return NotFound();
 
             var model = new CarViewModel
             {
-                Id = dto.Id,
-                CarBrand = dto.CarBrand,
-                CarModel = dto.CarModel,
-                CarColour = dto.CarColour,
-                Seats = dto.Seats,
-                FuelType = dto.FuelType,
-                Transmission = dto.Transmission,
-                HasAC = dto.HasAC,
-                PricePerDay = dto.PricePerDay,
-                Status = dto.Status,
-                Description = dto.Description,
-                ExistingImages = dto.Images
+                Id = car.Id,
+                CarBrand = car.CarBrand,
+                CarModel = car.CarModel,
+                CarColour = car.CarColour,
+                Seats = car.Seats,
+                FuelType = car.FuelType,
+                Transmission = car.Transmission,
+                HasAC = car.HasAC,
+                PricePerDay = car.PricePerDay,
+                Status = car.Status,
+                Description = car.Description,
+                ExistingImages = car.Images.Select(i => i.FileName).ToList()
             };
+
             return View(model);
         }
 
@@ -59,9 +60,18 @@ namespace CarRental.Controllers
         public IActionResult Update(CarViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            service.UpdateCar(model);
-            TempData["Success"] = "Car updated successfully!";
-            return RedirectToAction(nameof(ViewCar));
+
+            try
+            {
+                service.UpdateCar(model);
+                TempData["Success"] = "Car updated successfully!";
+                return RedirectToAction("ViewCar");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
         }
 
         [HttpGet]
