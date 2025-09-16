@@ -216,8 +216,14 @@
                 </div>
             </li>
 
-            <li class="nav-item"><a href="/Reports/Index" class="nav-link">Reports</a></li>
-            <li class="nav-item"><a href="/Settings/Index" class="nav-link">Settings</a></li>
+            <!-- Report -->
+            <li class="nav-item">
+                <a asp-controller="AdminDashboard" asp-action="Report" class="nav-link">Reports</a>
+            </li>
+            <!-- Setting -->
+            <li class="nav-item">
+                <a asp-controller="AdminDashboard" asp-action="Settings" class="nav-link">Settings</a>
+            </li>
         </ul>
 
         <!-- Profile -->

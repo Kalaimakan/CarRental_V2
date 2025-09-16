@@ -14,5 +14,15 @@ namespace CarRental.Controllers
         {
             return View();
         }
+
+        public IActionResult Report()
+        {
+            return View();
+        }
+
+        public IActionResult Settings()
+        {
+               return View();
+        }
     }
 }
