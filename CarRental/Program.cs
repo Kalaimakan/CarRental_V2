@@ -54,8 +54,15 @@ namespace CarRental
             //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
+                name: "customer",
+                pattern: "{controller=CustomerDashboard}/{action=Index}/{id?}");
+
+
+            app.MapControllerRoute(
                 name: "Default",
                 pattern: "{controller=AdminDashboard}/{action=AdminDashboard}/{id?}");
+
+
 
             app.Run();
         }
