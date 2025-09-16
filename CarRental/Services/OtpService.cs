@@ -16,6 +16,8 @@ namespace CarRental.Services
         {
             var otp = new Random().Next(100000, 999999).ToString();
             _cache.Set(email, otp, TimeSpan.FromMinutes(5));
+
+            Console.WriteLine($"[DEBUG] OTP generated for {email}: {otp}");
             return otp;
         }
 

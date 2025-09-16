@@ -58,6 +58,8 @@ namespace CarRental.Controllers
             try
             {
                 _emailService.SendEmail(model.Email, "Welcome! Your OTP Code", $"Hello {model.Name}, your OTP is: {otp}");
+                Console.WriteLine($"[DEBUG] OTP generated for {model.Email}: {otp}");
+
             }
             catch (Exception ex)
             {
@@ -133,6 +135,8 @@ namespace CarRental.Controllers
                 try
                 {
                     _emailService.SendEmail(dto.Email, "Welcome! Your OTP Code", $"Hello {dto.Name}, your OTP is: {otp}");
+                    Console.WriteLine($"[DEBUG] OTP generated for {dto.Email}: {otp}");
+
                 }
                 catch (Exception ex)
                 {
@@ -233,6 +237,7 @@ namespace CarRental.Controllers
             await _service.DeleteCustomerAsync(id);
             return RedirectToAction("ViewCustomer");
         }
+
 
         //Filter Customer
         [HttpGet]

@@ -11,5 +11,6 @@ namespace CarRental.Interfaces
         Task UpdateCustomerAsync(Customer customer);
         Task DeleteCustomerAsync(Customer customer);
         Task<List<Customer>> SearchCustomersAsync(string searchTerm);
+        Task<Customer> GetByEmailOrUsernameAsync(string identifier);
     }
 }
