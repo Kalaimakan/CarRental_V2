@@ -1,0 +1,276 @@
+﻿@model CarRental.ViewModels.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100%;
+        height: 100vh;
+        background: var(--dark-bg);
+        color: var(--light-text);
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* Background image */
+    .bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .wrapper {
+        width: 100%;
+        max-width: 800px;
+        padding: 30px;
+        margin:6% auto;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid var(--primary-red);
+        backdrop-filter: blur(9px);
+        -webkit-backdrop-filter: blur(9px);
+        box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .wrapper:hover {
+            transform: translateY(-5px);
+            border-color: red;
+            box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.7);
+        }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #fff;
+        font-weight: 700;
+        text-shadow: 0 0 10px rgba(255,0,0,0.6);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 30px;
+        margin-bottom: 20px;
+    }
+
+    .input-field {
+        position: relative;
+        border-bottom: 2px solid #ff0000;
+    }
+
+        .input-field label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 16px;
+            pointer-events: none;
+            transition: 0.8s ease;
+        }
+
+        .input-field input {
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #fff;
+        }
+
+            .input-field input:focus ~ label,
+            .input-field input:valid ~ label {
+                font-size: 0.8rem;
+                top: 10px;
+                transform: translateY(-120%);
+                color: var(--primary-red);
+            }
+
+    button {
+        background: var(--primary-red);
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        border: 2px solid transparent;
+        transition: 0.3s ease;
+        box-shadow: 0 0 7px 3px rgba(255, 0, 0, 0.3);
+    }
+
+        button:hover {
+            background-color: transparent;
+            border-color: var(--primary-red);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px 7px rgba(255, 0, 0, 0.6);
+        }
+
+    .register {
+        text-align: center;
+        margin-top: 30px;
+        color: #fff;
+    }
+
+        .register a {
+            color: #efefef;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+            .register a:hover {
+                color: var(--primary-red);
+                text-shadow: 0 0 5px red;
+            }
+
+    .strength {
+        text-align: left;
+        font-size: 14px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+        .strength.weak {
+            color: #ff4d4d;
+        }
+
+        .strength.medium {
+            color: #ffcc00;
+        }
+
+        .strength.strong {
+            color: #4dff88;
+        }
+</style>
+
+<body>
+    <!-- Background image in HTML -->
+    <img class="bg-img" src="~/images/car.webp" alt="Background">
+
+    <div class="wrapper">
+        <form asp-action="Register" method="post" id="registerForm">
+            <h2>Register</h2>
+
+            <div class="form-grid">
+                <div class="input-field">
+                    <input asp-for="Name" type="text" required>
+                    <label asp-for="Name">Full Name</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="Address" type="text" required>
+                    <label asp-for="Address">Address</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="PhoneNumber" type="tel" pattern="[0-9]{10}" required>
+                    <label asp-for="PhoneNumber">Phone No</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="LicenceNumber" type="text"  required>
+                    <label asp-for="LicenceNumber">Licence No</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="Email" type="email"required>
+                    <label asp-for="Email">Email</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="Username" type="text" required>
+                    <label asp-for="Username">Username</label>
+                </div>
+                <div class="input-field">
+                    <input asp-for="Password" type="password" id="password" required>
+                    <label asp-for="Password">Password</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" id="confirmPassword" required>
+                    <label>Confirm Password</label>
+                </div>
+            </div>
+
+            <p id="strengthMsg" class="strength"></p>
+            <p id="errorMsg" style="color: #ff8080; font-size: 14px; display: none; margin-bottom: 10px;"></p>
+
+            <button type="submit">Register</button>
+
+            <div class="register">
+                <p>Already have an account? <a asp-action="Login" asp-controller="Login">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("registerForm");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const errorMsg = document.getElementById("errorMsg");
+        const strengthMsg = document.getElementById("strengthMsg");
+
+        password.addEventListener("input", () => {
+            const val = password.value;
+            let strength = "";
+            if (val.length < 6) {
+                strength = "weak";
+            } else if (val.match(/[A-Za-z]/) && val.match(/[0-9]/) && val.length >= 6) {
+                strength = "medium";
+            }
+            if (val.match(/[A-Z]/) && val.match(/[0-9]/) && val.match(/[^A-Za-z0-9]/) && val.length >= 8) {
+                strength = "strong";
+            }
+
+            strengthMsg.textContent =
+                strength === "weak" ? "Weak Password" :
+                strength === "medium" ? "Medium Password" :
+                strength === "strong" ? "Strong Password" : "";
+
+            strengthMsg.className = "strength " + strength;
+        });
+
+        form.addEventListener("submit", (e) => {
+            if (password.value !== confirmPassword.value) {
+                e.preventDefault();
+                errorMsg.innerText = "Passwords do not match!";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            if (!/^[0-9]{10}$/.test(form.phone.value)) {
+                e.preventDefault();
+                errorMsg.innerText = "Phone number must be 10 digits.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            errorMsg.style.display = "none";
+            alert("Registration Successful! 🎉");
+        });
+    </script>
+</body>

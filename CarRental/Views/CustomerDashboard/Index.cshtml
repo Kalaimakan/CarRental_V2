@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Customer Dashboard";
-    Layout = "_Layout";
 }
+
+<h2>Welcome, @ViewBag.CustomerName!</h2>
+<p>Your Customer ID: @ViewBag.CustomerId</p>
 
 <div class="dashboard-container">
     <!-- Quick Actions Bar -->
