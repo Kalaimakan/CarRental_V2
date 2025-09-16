@@ -90,8 +90,16 @@ namespace CarRental.Controllers
             if (car == null) return NotFound();
 
             return View(car);
-
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchCar(string? brand, string? model)
+        {
+            var cars = await service.SearchCarsAsync(brand, model);
+            return View("SearchCar", cars); // Index view reuse pannalam
+        }
+
+
     }
 
 }

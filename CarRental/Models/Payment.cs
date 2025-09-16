@@ -16,6 +16,9 @@ namespace CarRental.Models
         public decimal Amount { get; set; } 
         
         public string PaymentMethod { get; set; } // e.g., Credit Card, PayPal
+        //public string CardNumber{ get; set; } // e.g., Pending, Completed, Failed
+        //public int CVC { get; set; }
+        //public DateTime ExpiryDate { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
         
        

@@ -3,6 +3,7 @@ using CarRental.Interfaces;
 using CarRental.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel;
 
 namespace CarRental.Repositories
 {
@@ -45,9 +46,28 @@ namespace CarRental.Repositories
 
         public List<Car> GetAll() =>
             _db.cars.Include(c => c.Images).ToList();
-    }
 
+
+        public async Task<List<Car>> GetAllCarsAsync()
+        {
+            return await _db.cars.Include(c => c.Images).ToListAsync();
+        }
+
+        public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
+        {
+            var query = _db.cars.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(brand))
+                query = query.Where(c => c.CarBrand.ToLower().Contains(brand.ToLower()));
+
+            if (!string.IsNullOrWhiteSpace(model))
+                query = query.Where(c => c.CarModel.ToLower().Contains(model.ToLower()));
+
+
+            return await query.Include(c => c.Images).ToListAsync();
+        }
+
+    }
 }
 
 
-//repo

@@ -7,7 +7,7 @@ namespace CarRental.Controllers
     {
         public IActionResult AdminDashboard()
         {
-            return View();
+            return RedirectToAction("OverView");
         }
 
         public IActionResult OverView()

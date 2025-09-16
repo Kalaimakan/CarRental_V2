@@ -13,6 +13,8 @@
             </a>
         </div>
 
+
+
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show m-3" role="alert" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.5); border:1px solid rgba(0,255,0,0.3);">
@@ -38,7 +40,43 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <form asp-action="SearchCar" method="get" class="row g-3 mb-4 align-items-center">
+                    <div class="col-md-3">
+                        <input type="text" name="brand" class="form-control" placeholder="Brand" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="model" class="form-control" placeholder="Model" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </form>
+
+                <!-- Car List -->
+                @if (Model != null && Model.Any())
+                {
+                   @*  <div class="row">
+                        @foreach (var car in Model)
+                        {
+                            <div class="col-md-12 mb-3">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@car.CarBrand - @car.CarModel</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div> *@
+                }
+                else
+                {
+                    <p>No cars found.</p>
+                }
+
+
+
+
+
                     @foreach (var car in Model)
                     {
                         <tr style="background-color: rgba(255,255,255,0.05); transition: all 0.2s;">
@@ -78,6 +116,7 @@
                                 </a>
                             </td>
                         </tr>
+
                     }
                 </tbody>
             </table>

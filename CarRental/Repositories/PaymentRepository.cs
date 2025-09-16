@@ -15,6 +15,11 @@ namespace CarRental.Repositories
             _Dbcontext = Dbcontext;
         }
 
+        public async Task<List<Payment>> GetAllPaymentsAsync()
+        {
+            return await _Dbcontext.Payments.ToListAsync();
+        }
+
         public async Task AddPaymentAsync(Payment payment)
         {
             await _Dbcontext.Payments.AddAsync(payment);
