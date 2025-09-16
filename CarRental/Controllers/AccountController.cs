@@ -17,7 +17,7 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult CustomerLogin()
         {
             return View();
         }
@@ -51,10 +51,15 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> CustomerLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
+        }
+
+        public IActionResult AdminLogin()
+        {
+            return View();
         }
     }
 }

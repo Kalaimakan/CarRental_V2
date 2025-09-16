@@ -50,7 +50,7 @@ namespace CarRental.Controllers
         [HttpPost]
         public IActionResult Register(CustomerViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
                 return View(model);
 
             var otp = _otpService.GenerateOtp(model.Email);
@@ -128,26 +128,26 @@ namespace CarRental.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CustomerDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(dto);
+
+            var otp = _otpService.GenerateOtp(dto.Email);
+
+            try
             {
-                var otp = _otpService.GenerateOtp(dto.Email);
+                _emailService.SendEmail(dto.Email, "Welcome! Your OTP Code", $"Hello {dto.Name}, your OTP is: {otp}");
+                Console.WriteLine($"[DEBUG] OTP generated for {dto.Email}: {otp}");
 
-                try
-                {
-                    _emailService.SendEmail(dto.Email, "Welcome! Your OTP Code", $"Hello {dto.Name}, your OTP is: {otp}");
-                    Console.WriteLine($"[DEBUG] OTP generated for {dto.Email}: {otp}");
-
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Customer added but OTP email could not be sent: " + ex.Message);
-                }
-
-                await _service.AddCustomerAsync(dto);
-                TempData["SuccessMessage"] = $"{dto.Name} added successfully";
-                return RedirectToAction("VerifyOtpAdmin", new { email = dto.Email });
             }
-            return View(dto);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Customer added but OTP email could not be sent: " + ex.Message);
+            }
+
+            await _service.AddCustomerAsync(dto);
+            TempData["SuccessMessage"] = $"{dto.Name} added successfully";
+            return RedirectToAction("VerifyOtpAdmin", new { email = dto.Email });
+
         }
 
         //verify otp for Admin
