@@ -13,5 +13,6 @@ namespace CarRental.Interfaces
         Task UpdateCustomerAsync(CustomerDto dto);
         Task DeleteCustomerAsync(Guid id);
         Task<List<CustomerDto>> SearchCustomersAsync(string searchTerm);
+        Task<Customer> AuthenticateAsync(LoginViewModel loginVm);
     }
 }

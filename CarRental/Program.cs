@@ -4,6 +4,7 @@ using CarRental.Repositories;
 using CarRental.Repositories.Implementations;
 using CarRental.Services;
 using CarRental.Services.Implementations;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,13 +33,23 @@ namespace CarRental
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
+            builder.Services.AddScoped<IOtpService, OtpService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";  
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied"; 
+            });
+
+            builder.Services.AddMemoryCache();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -47,15 +58,12 @@ namespace CarRental
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.MapControllerRoute(
-            //    name: "default",
-            //    pattern: "{controller=Home}/{action=Index}/{id?}");
-
             app.MapControllerRoute(
-                name: "Default",
-                pattern: "{controller=AdminDashboard}/{action=AdminDashboard}/{id?}");
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

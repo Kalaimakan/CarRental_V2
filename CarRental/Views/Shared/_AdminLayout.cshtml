@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,17 +18,22 @@
         body {
             min-height: 100vh;
             font-family: "Inter", sans-serif;
-            display: flex;
+            margin: 0;
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Sidebar common */
+        /* Sidebar fixed */
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
             width: 260px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 1rem;
+            overflow-y: auto;
             transition: background 0.3s, color 0.3s;
         }
 
@@ -59,8 +68,10 @@
 
         /* Main content */
         .main-content {
-            flex-grow: 1;
+            margin-left: 260px; /* Push content right of sidebar */
             padding: 2rem;
+            height: 100vh;
+            overflow-y: auto; /* Scroll only content */
             transition: background 0.3s, color 0.3s;
         }
 
@@ -71,7 +82,7 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Submenu toggle icon */
+        /* Submenu toggle */
         .submenu-toggle {
             transition: transform 0.3s, color 0.3s;
         }
@@ -80,7 +91,6 @@
             transform: rotate(90deg);
         }
 
-        /* Submenu links */
         .submenu .nav-link {
             padding-left: 2rem;
             font-size: 0.95rem;
@@ -158,7 +168,6 @@
             body.light-theme .profile {
                 border-top-color: #ced4da;
             }
-
     </style>
 </head>
 <body>
@@ -187,8 +196,8 @@
                 </a>
                 <div class="collapse submenu" id="customerSubmenu">
                     <ul class="nav flex-column ms-1">
-                        <li class="nav-item"><a href="/Customer/Create" class="nav-link">Add Customer</a></li>
-                        <li class="nav-item"><a href="/Customer/Index" class="nav-link">All Customers</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Customer" asp-action="Add">Add Customer</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Customer" asp-action="ViewCustomer">All Customers</a></li>
                     </ul>
                 </div>
             </li>
@@ -221,15 +230,13 @@
                         <small class="text-secondary">admin@carrental</small>
                     </div>
                 </div>
-
-                <!-- Dark/Light toggle button -->
+                <!-- Dark/Light toggle -->
                 <button id="themeToggle" class="btn btn-sm btn-outline-light">
                     <i class="bi bi-moon-fill" id="themeIcon"></i>
                 </button>
             </div>
             <a href="/Account/Logout" class="btn btn-outline-light btn-sm mt-2">Logout</a>
         </div>
-
     </div>
 
     <!-- Main content -->
@@ -239,7 +246,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Remember last open submenu using localStorage
+        // Remember last open submenu
         document.querySelectorAll('.sidebar .collapse').forEach(collapseEl => {
             collapseEl.addEventListener('shown.bs.collapse', function () {
                 localStorage.setItem('openSubmenu', this.id);
@@ -251,7 +258,6 @@
             });
         });
 
-        // Restore submenu state on page load
         const openSubmenuId = localStorage.getItem('openSubmenu');
         if (openSubmenuId) {
             const openEl = document.getElementById(openSubmenuId);
@@ -263,14 +269,13 @@
         // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-
-        // Load saved theme from localStorage
         const savedTheme = localStorage.getItem('theme');
+
         if (savedTheme) {
             document.body.classList.add(savedTheme);
             themeIcon.className = savedTheme === 'dark-theme' ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
         } else {
-            document.body.classList.add('dark-theme'); // default
+            document.body.classList.add('dark-theme');
         }
 
         themeToggle.addEventListener('click', () => {
@@ -286,8 +291,8 @@
                 localStorage.setItem('theme', 'dark-theme');
             }
         });
-
     </script>
 
     @RenderSection("Scripts", required: false)
 </body>
+</html>

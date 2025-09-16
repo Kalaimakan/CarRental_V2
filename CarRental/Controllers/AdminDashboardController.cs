@@ -9,5 +9,10 @@ namespace CarRental.Controllers
         {
             return View();
         }
+
+        public IActionResult OverView()
+        {
+            return View();
+        }
     }
 }
