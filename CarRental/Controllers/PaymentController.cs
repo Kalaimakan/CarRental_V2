@@ -14,6 +14,12 @@ namespace CarRental.Controllers
             _service = service;
         }
 
+        public async Task<IActionResult> ViewPayment()
+        {
+            var payment = await _service.GetAllPaymentsAsync();
+            return View(payment);
+        }
+
         [HttpGet]
         public IActionResult AddPayment()
         {

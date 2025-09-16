@@ -48,33 +48,25 @@ namespace CarRental.Repositories
             _db.cars.Include(c => c.Images).ToList();
 
 
-        //public async Task<List<Car>> SearchCarsAsync(string searchTerm)
-        //{
-        //    if (string.IsNullOrWhiteSpace(searchTerm))
-        //        return await _db.cars.ToListAsync();
+        public async Task<List<Car>> GetAllCarsAsync()
+        {
+            return await _db.cars.Include(c => c.Images).ToListAsync();
+        }
 
-        //    searchTerm = searchTerm.ToLower();
-        //    if (int.TryParse(searchTerm, out int pricePerDay))
+        public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
+        {
+            var query = _db.cars.AsQueryable();
 
-        //        return await _db.cars
-        //        .Where(c => c.CarModel.ToLower().Contains(searchTerm) ||
-        //                    c.CarBrand.ToLower().Contains(searchTerm) ||
-        //                    c.PricePerDay == pricePerDay)
+            if (!string.IsNullOrWhiteSpace(brand))
+                query = query.Where(c => c.CarBrand.ToLower().Contains(brand.ToLower()));
 
-        //        .ToListAsync();
-
-        //    return await _db.cars
-        //.Where(c => c.CarModel.ToLower().Contains(searchTerm) ||
-        //            c.CarBrand.ToLower().Contains(searchTerm))
-        //.ToListAsync();
+            if (!string.IsNullOrWhiteSpace(model))
+                query = query.Where(c => c.CarModel.ToLower().Contains(model.ToLower()));
 
 
-        //}
+            return await query.Include(c => c.Images).ToListAsync();
+        }
 
-        //public Task<List<Car>> GetAllCarsAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
 

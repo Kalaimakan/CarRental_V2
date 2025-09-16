@@ -14,6 +14,20 @@ namespace CarRental.Services
             _repository = repository;
         }
 
+        public async Task<List<PaymentDto>> GetAllPaymentsAsync()
+        {
+            var payments = await _repository.GetAllPaymentsAsync();
+            return payments.Select(p => new PaymentDto
+            {
+                Id = p.Id,
+                BookingId = p.BookingId,
+                Amount = p.Amount,
+                PaymentMethod = p.PaymentMethod,
+                PaymentDate = p.PaymentDate,
+               
+            }).ToList();
+        }
+
         public async Task AddPaymentAsync(PaymentDto paymentDto)
         {
             var payment = new Payment
@@ -23,6 +37,7 @@ namespace CarRental.Services
                 Amount = paymentDto.Amount,
                 PaymentMethod = paymentDto.PaymentMethod,
                 PaymentDate = DateTime.UtcNow,
+                
                
             };
 

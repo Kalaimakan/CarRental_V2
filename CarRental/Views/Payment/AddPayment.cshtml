@@ -1,36 +1,96 @@
 ﻿@model CarRental.ViewModels.PaymentViewModel
 
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-4 p-4">
-        <h2 class="mb-4 text-center text-primary">Add Payment</h2>
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden"
+         style="background: #1a1a1a; color: #e0e0e0;">
 
-        <form asp-action="Add" method="post">
-            <div class="mb-3">
-                <label asp-for="BookingId" class="form-label">Booking ID</label>
-                <input asp-for="BookingId" class="form-control" />
-                <span asp-validation-for="BookingId" class="text-danger"></span>
-            </div>
+        <!-- Header -->
+        <div class="card-header py-4 text-center"
+             style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
+            <h2 class="mb-0 fw-bold text-uppercase text-white">
+                <i class="bi bi-credit-card"></i> Add Payment
+            </h2>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="Amount" class="form-label">Amount</label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
+        <!-- Form Body -->
+        <div class="card-body p-4">
+            <form asp-action="Add" method="post">
 
-            <div class="mb-3">
-                <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
-                <select asp-for="PaymentMethod" class="form-control">
-                    <option>Credit Card</option>
-                    <option>PayPal</option>
-                    <option>Cash</option>
-                </select>
-                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
-            </div>
+                <!-- Amount -->
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label">Amount</label>
+                    <input asp-for="Amount" class="form-control bg-dark text-white" placeholder="Enter Amount" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
 
-            <div class="d-flex justify-content-between">
-                <a asp-action="Index" asp-controller="Booking" class="btn btn-secondary">Back</a>
-                <button type="submit" class="btn btn-success">Add Payment</button>
-            </div>
-        </form>
+                <!-- Payment Method -->
+                <div class="mb-3">
+                    <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+                    <select asp-for="PaymentMethod" class="form-control bg-dark text-white" id="paymentMethod" onchange="toggleCardDetails()">
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                </div>
+
+                <!-- Card Details (Hidden initially) -->
+                <div id="cardDetails" class="d-none">
+                    <div class="mb-3">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-control bg-dark text-white" placeholder="Enter Card Number" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Expiry Date</label>
+                        <input type="month" class="form-control bg-dark text-white" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CVC</label>
+                        <input type="text" class="form-control bg-dark text-white" placeholder="Enter CVC" />
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="ViewPayment" class="btn btn-outline-light px-4">
+                        <i class="bi bi-arrow-left me-2"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold"
+                            style="background: linear-gradient(135deg, #6c63ff, #3b3b98); border: none;">
+                        <i class="bi bi-save-fill me-2"></i> Submit
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
+
+<!-- Hover effect -->
+<style>
+    .hover-scale:hover {
+        transform: scale(1.05);
+        transition: 0.2s ease-in-out;
+    }
+</style>
+
+<!-- JavaScript to toggle card details -->
+<script>
+    function toggleCardDetails() {
+        var paymentMethod = document.getElementById('paymentMethod').value;
+        var cardDetailsSection = document.getElementById('cardDetails');
+
+        if (paymentMethod === 'Credit Card') {
+            // Show card details form if Credit Card is selected
+            cardDetailsSection.classList.remove('d-none');
+        } else {
+            // Hide card details form if another method is selected
+            cardDetailsSection.classList.add('d-none');
+        }
+    }
+
+    // Call this function on page load to ensure the card details form is hidden initially
+    window.onload = function () {
+        toggleCardDetails();
+    };
+</script>

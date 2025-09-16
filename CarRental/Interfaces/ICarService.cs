@@ -11,7 +11,7 @@ namespace CarRental.Interfaces
         void DeleteCar(Guid id);
         List<CarDto> GetAllCars();
         CarDto GetCarById(Guid id);
-        //Task<List<CarDto>> SearchCarsAsync(string searchTerm);
+        Task<List<Car>> SearchCarsAsync(string? brand, string? model);  
     }
 
 }

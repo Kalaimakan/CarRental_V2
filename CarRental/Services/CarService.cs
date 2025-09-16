@@ -179,38 +179,20 @@ public class CarService : ICarService
         }
     }
 
-    //public async Task<List<CarDto>> SearchCarsAsync(string searchTerm)
-    //{
-    //    if (string.IsNullOrWhiteSpace(searchTerm))
-    //        return await repo.GetAllCarsAsync(); 
+    public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
+    {
+        var cars = await repo.SearchCarsAsync(brand, model);
 
-    //    searchTerm = searchTerm.ToLower();
-
-    //    // Attempt to parse PricePerDay if the searchTerm is numeric
-    //    if (int.TryParse(searchTerm, out int pricePerDay))
-    //    {
-    //        // Filter cars by brand, model or price per day if searchTerm is numeric
-    //        var cars = await repo.SearchCarsAsync(searchTerm, pricePerDay);
-
-    //        return cars.Select(c => new CarDto
-    //        {
-              
-    //            CarBrand = c.CarBrand,
-    //            CarModel = c.CarModel,
-    //            PricePerDay = c.PricePerDay
-    //        }).ToList();
-    //    }
-
-    //    var filteredCars = await repo.SearchCarsAsync(searchTerm);
-
-    //    return filteredCars.Select(c => new CarDto
-    //    {
-    //        Id = c.Id,
-    //        CarBrand = c.CarBrand,
-    //        CarModel = c.CarModel,
-    //        PricePerDay = c.PricePerDay
-    //    }).ToList();
+        // Mapping to CarDto if needed
+        return cars.Select(c => new Car
+        {
+            
+            CarBrand = c.CarBrand,
+            CarModel = c.CarModel,
+           
+        }).ToList();
     }
+}
 
 
 

@@ -24,7 +24,7 @@ namespace CarRental.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Licence number is required")]
-        [StringLength(50, ErrorMessage = "Licence number cannot exceed 50 characters")]
+        [StringLength(50, ErrorMessage = "Licence number cannot exceed 20 characters")]
         public string LicenceNumber { get; set; }
 
         [Required(ErrorMessage = "Username is required")]
