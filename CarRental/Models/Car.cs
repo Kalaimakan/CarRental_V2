@@ -43,6 +43,5 @@ namespace CarRental.Models
         [Required]
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
 
-        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }

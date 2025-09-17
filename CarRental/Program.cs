@@ -27,12 +27,6 @@ namespace CarRental
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarRepository, CarRepository>();
 
-            builder.Services.AddScoped<IBookingService, BookingService>();
-            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-
-            builder.Services.AddScoped<IPaymentService, PaymentService>();
-            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-
             builder.Services.AddScoped<IOtpService, OtpService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
 
