@@ -1,0 +1,49 @@
+﻿@model CarRental.ViewModels.ContactViewModel
+
+@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container my-5">
+    <div class="card shadow-lg rounded-4 p-4" style="background-color: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+        <h2 class="text-white mb-4">Contact Us</h2>
+
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">@Model.SuccessMessage</div>
+        }
+
+        <form asp-action="Contact" method="post">
+            <div class="mb-3">
+                <label class="form-label text-white">Name</label>
+                <input asp-for="Contact.Name" class="form-control" />
+                <span asp-validation-for="Contact.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-white">Email</label>
+                <input asp-for="Contact.Email" class="form-control" />
+                <span asp-validation-for="Contact.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-white">Subject</label>
+                <input asp-for="Contact.Subject" class="form-control" />
+                <span asp-validation-for="Contact.Subject" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-white">Message</label>
+                <textarea asp-for="Contact.Message" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Contact.Message" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
