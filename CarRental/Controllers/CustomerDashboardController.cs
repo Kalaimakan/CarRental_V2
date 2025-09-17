@@ -14,26 +14,30 @@ namespace CarRental.Controllers
 
             ViewBag.CustomerName = customerName;
             ViewBag.CustomerId = customerId;
-
+            
             return View();
         }
 
+        // Browse cars page
         public IActionResult BrowseCars()
         {
             return View();
         }
 
+        // My bookings page
         public IActionResult MyBookings()
-        {
+        { 
             return View();
         }
 
+        // Feedback page
         public IActionResult Feedback()
-        {
+        { 
             return View();
         }
 
-        public IActionResult HelpAndFAQ()
+        // Help & FAQ page
+        public IActionResult Help()
         {
             return View();
         }
