@@ -52,7 +52,7 @@ namespace CarRental.Services.Implementations
 
         public async Task AddCustomerAsync(CustomerDto dto)
         {
-            var AddCustomer = new Customer
+            var customer = new Customer
             {
                 Id = dto.Id,
                 Name = dto.Name,
