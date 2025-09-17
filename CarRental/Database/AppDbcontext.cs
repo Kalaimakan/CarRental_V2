@@ -20,7 +20,7 @@ namespace CarRental.Database
                     Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     Username = "Admin",
                     Email = "admin@carrental.com",
-                    Password = "Admin@123" 
+                    Password = "Admin@123"
                 }
             );
         }

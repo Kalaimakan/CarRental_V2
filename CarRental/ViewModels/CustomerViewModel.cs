@@ -24,7 +24,7 @@ namespace CarRental.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Licence number is required")]
-        [StringLength(50, ErrorMessage = "Licence number cannot exceed 20 characters")]
+        [RegularExpression(@"^(?:[0-9]{9}[VXvx]|[0-9]{12})$",ErrorMessage = "Invalid Sri Lankan licence number format")]
         public string LicenceNumber { get; set; }
 
         [Required(ErrorMessage = "Username is required")]
@@ -34,9 +34,12 @@ namespace CarRental.ViewModels
         [Required(ErrorMessage = "Password is required")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d).+$",
-    ErrorMessage = "Password must contain letters and numbers.")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d).+$", ErrorMessage = "Password must contain letters and numbers.")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please confirm your password")]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        public string ConfirmPassword { get; set; }
 
     }
 }

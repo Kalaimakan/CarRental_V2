@@ -185,7 +185,7 @@
         <!-- Navigation -->
         <ul class="nav nav-pills flex-column gap-1">
             <li class="nav-item">
-                <a asp-controller="AdminDashboard" asp-action="AdminDashboard" class="nav-link">Overview</a>
+                <a asp-controller="Admin" asp-action="OverView" class="nav-link">Overview</a>
             </li>
 
             <!-- Customer Management -->
@@ -218,11 +218,11 @@
 
             <!-- Report -->
             <li class="nav-item">
-                <a asp-controller="AdminDashboard" asp-action="Report" class="nav-link">Reports</a>
+                <a asp-controller="Admin" asp-action="Report" class="nav-link">Reports</a>
             </li>
             <!-- Setting -->
             <li class="nav-item">
-                <a asp-controller="AdminDashboard" asp-action="Settings" class="nav-link">Settings</a>
+                <a asp-controller="Admin" asp-action="Settings" class="nav-link">Settings</a>
             </li>
         </ul>
 
@@ -241,7 +241,7 @@
                     <i class="bi bi-moon-fill" id="themeIcon"></i>
                 </button>
             </div>
-            <a href="/Account/Logout" class="btn btn-outline-light btn-sm mt-2">Logout</a>
+            <a asp-controller="Admin" asp-action="AdminLogout" class="btn btn-outline-light btn-sm mt-2">Logout</a>
         </div>
     </div>
 

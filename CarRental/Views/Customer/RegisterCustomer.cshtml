@@ -82,6 +82,10 @@
     .input-field {
         position: relative;
         border-bottom: 2px solid #ff0000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; 
+        padding-bottom: 5px;
     }
 
         .input-field label {
@@ -112,6 +116,11 @@
                 transform: translateY(-120%);
                 color: var(--primary-red);
             }
+
+    .text-danger {
+        font-size: 13px;
+        color: #ff4d4d !important;
+    }
 
     button {
         background: var(--primary-red);
@@ -178,41 +187,49 @@
     <img class="bg-img" src="~/images/car.webp" alt="Background">
 
     <div class="wrapper">
-        <form asp-action="Register" method="post" id="registerForm">
+        <form asp-action="RegisterCustomer" method="post" id="registerForm">
             <h2>Register</h2>
 
             <div class="form-grid">
                 <div class="input-field">
                     <input asp-for="Name" type="text" required>
                     <label asp-for="Name">Full Name</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="Address" type="text" required>
                     <label asp-for="Address">Address</label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="PhoneNumber" type="tel" pattern="[0-9]{10}" required>
                     <label asp-for="PhoneNumber">Phone No</label>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="LicenceNumber" type="text"  required>
                     <label asp-for="LicenceNumber">Licence No</label>
+                    <span asp-validation-for="LicenceNumber" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="Email" type="email"required>
                     <label asp-for="Email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="Username" type="text" required>
                     <label asp-for="Username">Username</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="input-field">
                     <input asp-for="Password" type="password" id="password" required>
                     <label asp-for="Password">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="input-field">
-                    <input type="password" id="confirmPassword" required>
-                    <label>Confirm Password</label>
+                    <input asp-for="ConfirmPassword" type="password" id="confirmPassword" required>
+                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
 
@@ -222,7 +239,7 @@
             <button type="submit">Register</button>
 
             <div class="register">
-                <p>Already have an account? <a asp-action="Login" asp-controller="Login">Login</a></p>
+                <p>Already have an account? <a asp-action="CustomerLogin" asp-controller="Account">Login</a></p>
             </div>
         </form>
     </div>
@@ -274,3 +291,7 @@
         });
     </script>
 </body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

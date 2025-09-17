@@ -6,6 +6,7 @@ using CarRental.Services.Implementations;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using static System.Net.WebRequestMethods;
 
 namespace CarRental.Controllers
 {
@@ -48,10 +49,40 @@ namespace CarRental.Controllers
 
         //register Customer
         [HttpPost]
-        public IActionResult Register(CustomerViewModel model)
+        public async Task<IActionResult> RegisterCustomer(CustomerViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
+
+            var dto = new CustomerDto
+            {
+                Name = model.Name,
+                Address = model.Address,
+                PhoneNumber = model.PhoneNumber,
+                LicenceNumber = model.LicenceNumber,
+                Email = model.Email,
+                UserName = model.Username,
+                Password = model.Password
+            };
+
+            // Check which fields are duplicates
+            var duplicates = await _service.CheckDuplicateFieldsAsync(dto);
+
+            if (duplicates.Email)
+                ModelState.AddModelError("Email", "Email already taken");
+
+            if (duplicates.UserName)
+                ModelState.AddModelError("Username", "Username already taken");
+
+            if (duplicates.PhoneNumber)
+                ModelState.AddModelError("PhoneNumber", "Phone number already taken");
+
+            if (duplicates.LicenceNumber)
+                ModelState.AddModelError("LicenceNumber", "Licence number already taken");
+
+            if (duplicates.HasAny())
+                return View(model);
+
 
             var otp = _otpService.GenerateOtp(model.Email);
 
@@ -59,7 +90,6 @@ namespace CarRental.Controllers
             {
                 _emailService.SendEmail(model.Email, "Welcome! Your OTP Code", $"Hello {model.Name}, your OTP is: {otp}");
                 Console.WriteLine($"[DEBUG] OTP generated for {model.Email}: {otp}");
-
             }
             catch (Exception ex)
             {
@@ -67,7 +97,6 @@ namespace CarRental.Controllers
                 return View(model);
             }
             TempData["RegisterData"] = JsonSerializer.Serialize(model);
-
             return RedirectToAction("VerifyOtpRegister", new { email = model.Email });
         }
 
@@ -100,7 +129,7 @@ namespace CarRental.Controllers
                     };
                     await _service.AddCustomerAsync(dto);
                 }
-                return RedirectToAction("Success");
+                return RedirectToAction("Account", "CustomerLogin");
             }
             ModelState.AddModelError("", "Invalid OTP");
             return View(model);
@@ -118,7 +147,7 @@ namespace CarRental.Controllers
             return View(customer);
         }
 
-        //otp add
+        //otp for add
         public IActionResult Add()
         {
             return View();
@@ -131,6 +160,36 @@ namespace CarRental.Controllers
             if (!ModelState.IsValid)
                 return View(dto);
 
+            var Customerdto = new CustomerDto
+            {
+                Name = dto.Name,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
+                LicenceNumber = dto.LicenceNumber,
+                Email = dto.Email,
+                UserName = dto.UserName,
+                Password = dto.Password
+            };
+
+            // Check which fields are duplicates
+            var duplicates = await _service.CheckDuplicateFieldsAsync(Customerdto);
+
+            if (duplicates.Email)
+                ModelState.AddModelError("Email", "Email already taken");
+
+            if (duplicates.UserName)
+                ModelState.AddModelError("UserName", "Username already taken");
+
+            if (duplicates.PhoneNumber)
+                ModelState.AddModelError("PhoneNumber", "Phone number already taken");
+
+            if (duplicates.LicenceNumber)
+                ModelState.AddModelError("LicenceNumber", "Licence number already taken");
+
+            if (duplicates.HasAny())
+                return View(dto);
+
+
             var otp = _otpService.GenerateOtp(dto.Email);
 
             try
@@ -142,10 +201,9 @@ namespace CarRental.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Customer added but OTP email could not be sent: " + ex.Message);
+                return View(dto);
             }
 
-            await _service.AddCustomerAsync(dto);
-            TempData["SuccessMessage"] = $"{dto.Name} added successfully";
             return RedirectToAction("VerifyOtpAdmin", new { email = dto.Email });
 
         }
@@ -177,6 +235,11 @@ namespace CarRental.Controllers
                         Password = registerData.Password
                     };
                     await _service.AddCustomerAsync(dto);
+                    _emailService.SendEmail(
+                dto.Email,
+                $"Welcome to Our Family, {dto.Name}!",
+                $"Hello {dto.Name}, welcome aboard! Your login details:\n   Username: {dto.UserName}\n  Password: {dto.Password}\nWarm regards, Car Rental Team");
+                    TempData["SuccessMessage"] = $"{dto.Name} has been added successfully!";
                 }
                 return RedirectToAction("ViewCustomer");
             }
