@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Repositories.Implementations
 {
-    public class CustomerRepository: ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly AppDbcontext _Dbcontext;
 
@@ -19,7 +19,7 @@ namespace CarRental.Repositories.Implementations
             return await _Dbcontext.customers.ToListAsync();
         }
 
-        public async Task <Customer> GetCustomerByIdAsync(Guid id)
+        public async Task<Customer> GetCustomerByIdAsync(Guid id)
         {
             return await _Dbcontext.customers.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -58,7 +58,11 @@ namespace CarRental.Repositories.Implementations
                 .ToListAsync();
         }
 
-
-
+        public async Task<Customer> GetByEmailOrUsernameAsync(string identifier)
+        {
+            return await _Dbcontext.customers
+                .FirstOrDefaultAsync(c => c.Email == identifier || c.UserName == identifier);
+        }
     }
 }
+

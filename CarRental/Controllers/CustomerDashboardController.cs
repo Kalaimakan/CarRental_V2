@@ -1,13 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
 {
     public class CustomerDashboardController : Controller
     {
-        // Main dashboard page
+        [Authorize]
         public IActionResult Index()
         {
-            // This will load: Views/CustomerDashboard/Index.cshtml
+            var customerIdClaim = User.FindFirst("CustomerId");
+            var customerId = customerIdClaim != null ? customerIdClaim.Value : null;
+            var customerName = User.Identity?.Name;
+
+            ViewBag.CustomerName = customerName;
+            ViewBag.CustomerId = customerId;
+            
             return View();
         }
 

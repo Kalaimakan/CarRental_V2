@@ -2,6 +2,7 @@
 using CarRental.Interfaces;
 using CarRental.Models;
 using CarRental.Repositories.Implementations;
+using CarRental.ViewModels;
 
 namespace CarRental.Services.Implementations
 {
@@ -110,6 +111,17 @@ namespace CarRental.Services.Implementations
                 LicenceNumber = c.LicenceNumber
             }).ToList();
         }
+        public async Task<Customer> AuthenticateAsync(LoginViewModel loginVm)
+        {
+            var customer = await _repository.GetByEmailOrUsernameAsync(loginVm.Identifier);
 
+            if (customer == null)
+                return null;
+
+            if (customer.Password == loginVm.Password)
+                return customer;
+
+            return null;
+        }
     }
 }

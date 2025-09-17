@@ -1,4 +1,5 @@
-﻿using CarRental.Models;
+﻿using CarRental.DTOs;
+using CarRental.Models;
 
 namespace CarRental.Interfaces
 {
@@ -9,6 +10,7 @@ namespace CarRental.Interfaces
         void Delete(Car car);
         Car GetById(Guid id);
         List<Car> GetAll();
+        Task<List<Car>> SearchCarsAsync(string? brand, string? model);
     }
 
 }

@@ -7,7 +7,22 @@ namespace CarRental.Controllers
     {
         public IActionResult AdminDashboard()
         {
+            return RedirectToAction("OverView");
+        }
+
+        public IActionResult OverView()
+        {
             return View();
+        }
+
+        public IActionResult Report()
+        {
+            return View();
+        }
+
+        public IActionResult Settings()
+        {
+               return View();
         }
     }
 }
