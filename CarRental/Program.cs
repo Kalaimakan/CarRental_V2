@@ -36,6 +36,10 @@ namespace CarRental
             builder.Services.AddScoped<IOtpService, OtpService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
 
+            builder.Services.AddScoped<IContactService, ContactService>();
+            builder.Services.AddScoped<IContactRepository, ContactRepository>();
+
+
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.LoginPath = "/Account/Login";  
