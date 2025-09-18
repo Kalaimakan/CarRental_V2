@@ -15,7 +15,6 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <!-- Custom CSS -->
     <style>
         /* Theme variables */
         :root {
@@ -48,33 +47,33 @@
             flex-direction: column;
         }
 
-        .sidebar .nav-link {
-            color: var(--light-text);
-            transition: all 0.3s ease;
-        }
+            .sidebar .nav-link {
+                color: var(--light-text);
+                transition: all 0.3s ease;
+            }
 
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            color: var(--primary-red);
-            background-color: rgba(255,0,0,0.1);
-            border-radius: 8px;
-        }
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    color: var(--primary-red);
+                    background-color: rgba(255,0,0,0.1);
+                    border-radius: 8px;
+                }
 
-        .sidebar .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-        }
+            .sidebar .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: var(--primary-red);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                color: white;
+            }
 
-        .sidebar .profile {
-            margin-top: auto;
-        }
+            .sidebar .profile {
+                margin-top: auto;
+            }
 
         .btn-outline-primary {
             color: var(--primary-red);
@@ -82,11 +81,11 @@
             transition: all 0.3s ease;
         }
 
-        .btn-outline-primary:hover {
-            background-color: var(--primary-red);
-            color: #fff;
-            border-color: var(--primary-red);
-        }
+            .btn-outline-primary:hover {
+                background-color: var(--primary-red);
+                color: #fff;
+                border-color: var(--primary-red);
+            }
 
         /* Main content */
         .main-content {
@@ -99,9 +98,9 @@
             cursor: pointer;
         }
 
-        /* Card hover effect (can reuse for dashboard cards later) */
+        /* Card hover effect + Available Cars theme */
         .card {
-            background-color: var(--dark-bg);
+            background-color: rgba(18, 18, 18, 0.95);
             border: 1px solid var(--primary-red);
             border-radius: 10px;
             color: var(--light-text);
@@ -111,10 +110,45 @@
             box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0.2);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-red);
-            box-shadow: 0 0 20px 8px rgba(255, 0, 0, 0.5);
+            .card:hover {
+                transform: translateY(-5px);
+                border-color: var(--primary-red);
+                box-shadow: 0 0 20px 8px rgba(255, 0, 0, 0.5);
+            }
+
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+
+        h2, p {
+            text-align: center;
+        }
+
+        .car-card {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -122,7 +156,6 @@
     <div class="app-shell">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <!-- Brand -->
             <div class="d-flex align-items-center mb-4">
                 <div class="avatar me-2">CR</div>
                 <div>
@@ -131,31 +164,14 @@
                 </div>
             </div>
 
-            <!-- Navigation -->
             <ul class="nav flex-column gap-1">
-                <li class="nav-item">
-                    <a href="/CustomerDashboard/Index" class="nav-link active">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Cars/Browse" class="nav-link">
-                        <i class="bi bi-car-front"></i> Browse Cars
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Bookings/MyBookings" class="nav-link">
-                        <i class="bi bi-journal-text"></i> My Bookings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Feedback/Create" class="nav-link">
-                        <i class="bi bi-chat-dots"></i> Feedback
-                    </a>
-                </li>
+                <li class="nav-item"><a href="/CustomerDashboard/Index" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="nav-link"><i class="bi bi-car-front"></i> Browse Cars</a></li>
+                <li class="nav-item"><a href="/Bookings/MyBookings" class="nav-link"><i class="bi bi-journal-text"></i> My Bookings</a></li>
+                <li class="nav-item"><a href="/Feedback/Create" class="nav-link"><i class="bi bi-chat-dots"></i> Feedback</a></li>
+                <li class="nav-item"><a href="/Help/Index" class="nav-link"><i class="bi bi-question-circle"></i> Help & FAQ</a></li>
             </ul>
 
-            <!-- Profile -->
             <div class="profile mt-auto">
                 <div class="d-flex align-items-center gap-2 mb-2">
                     @{
@@ -177,7 +193,6 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Top bar -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button id="sidebarToggle" class="btn btn-outline-primary d-md-none">☰</button>
                 <h4 class="mb-0">@ViewData["Title"]</h4>
@@ -186,23 +201,13 @@
                 </button>
             </div>
 
-            <!-- Welcome Message -->
-            <div id="welcomeMsg" class="alert alert-dark border border-danger shadow-sm mb-4">
-                👋 Welcome, <strong>@User.Identity?.Name</strong>!
-            </div>
-
-            <!-- Body content -->
+            <!-- Body content: Render your pages (Available Cars etc.) -->
             @RenderBody()
         </main>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="~/js/customer.js"></script>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
 <script>
