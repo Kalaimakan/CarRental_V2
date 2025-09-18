@@ -20,7 +20,7 @@ namespace CarRental.Database
                     Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     Username = "Admin",
                     Email = "admin@carrental.com",
-                    Password = "Admin@123" 
+                    Password = "Admin@123"
                 }
             );
         }
@@ -28,8 +28,6 @@ namespace CarRental.Database
         public DbSet<Car> cars { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<Customer> customers { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
     }
 }

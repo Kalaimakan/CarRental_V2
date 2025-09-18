@@ -7,6 +7,7 @@ namespace CarRental.Interfaces
     {
         Task<Customer> GetCustomerByIdAsync(Guid id);
         Task<List<Customer>> GetAllCustomersAsync();
+        Task<bool> ExistsAsync(string email, string username, string licenceNumber, string phoneNumber);
         Task AddCustomerAsync(Customer customer);
         Task UpdateCustomerAsync(Customer customer);
         Task DeleteCustomerAsync(Customer customer);

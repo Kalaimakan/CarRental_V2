@@ -50,21 +50,45 @@ namespace CarRental.Services.Implementations
             };
         }
 
+        public class DuplicateCheckResult
+        {
+            public bool Email { get; set; }
+            public bool UserName { get; set; }
+            public bool PhoneNumber { get; set; }
+            public bool LicenceNumber { get; set; }
+
+            public bool HasAny() => Email || UserName || PhoneNumber || LicenceNumber;
+        }
+
+        public async Task<DuplicateCheckResult> CheckDuplicateFieldsAsync(CustomerDto dto)
+        {
+            var allCustomers = await _repository.GetAllCustomersAsync();
+
+            return new DuplicateCheckResult
+            {
+                Email = allCustomers.Any(c => c.Email == dto.Email),
+                UserName = allCustomers.Any(c => c.UserName == dto.UserName),
+                PhoneNumber = allCustomers.Any(c => c.PhoneNumber == dto.PhoneNumber),
+                LicenceNumber = allCustomers.Any(c => c.LicenceNumber == dto.LicenceNumber)
+            };
+        }
+
+
         public async Task AddCustomerAsync(CustomerDto dto)
         {
-            var AddCustomer = new Customer
+            var customer = new Customer
             {
-                Id = dto.Id,
+                Id = dto.Id == Guid.Empty ? Guid.NewGuid() : dto.Id,
                 Name = dto.Name,
                 PhoneNumber = dto.PhoneNumber,
-                Address= dto.Address,
+                Address = dto.Address,
                 Email = dto.Email,
                 LicenceNumber = dto.LicenceNumber,
                 UserName = dto.UserName,
                 Password = dto.Password
-
             };
-            await _repository.AddCustomerAsync(AddCustomer);
+
+            await _repository.AddCustomerAsync(customer);
         }
 
         public async Task UpdateCustomerAsync(CustomerDto dto)

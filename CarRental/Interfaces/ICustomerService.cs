@@ -1,6 +1,7 @@
 ﻿using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.ViewModels;
+using static CarRental.Services.Implementations.CustomerService;
 
 namespace CarRental.Interfaces
 
@@ -9,6 +10,7 @@ namespace CarRental.Interfaces
     {
         Task<CustomerDto> GetCustomerIdAsync(Guid id);
         Task<List<CustomerDto>> GetAllCustomersAsync();
+        Task<DuplicateCheckResult> CheckDuplicateFieldsAsync(CustomerDto dto);
         Task AddCustomerAsync(CustomerDto dto);
         Task UpdateCustomerAsync(CustomerDto dto);
         Task DeleteCustomerAsync(Guid id);

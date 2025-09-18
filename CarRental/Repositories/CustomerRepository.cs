@@ -24,6 +24,17 @@ namespace CarRental.Repositories.Implementations
             return await _Dbcontext.customers.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<bool> ExistsAsync(string email, string username, string licenceNumber, string phoneNumber)
+        {
+            return await _Dbcontext.customers.AnyAsync(c =>
+                c.Email == email ||
+                c.UserName == username ||
+                c.LicenceNumber == licenceNumber ||
+                c.PhoneNumber == phoneNumber
+            );
+        }
+
+
         public async Task AddCustomerAsync(Customer customer)
         {
             _Dbcontext.customers.Add(customer);
