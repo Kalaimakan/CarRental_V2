@@ -153,20 +153,22 @@
                         <i class="bi bi-chat-dots"></i> Feedback
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="/Help/Index" class="nav-link">
-                        <i class="bi bi-question-circle"></i> Help & FAQ
-                    </a>
-                </li>
             </ul>
 
             <!-- Profile -->
             <div class="profile mt-auto">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <div class="avatar">C</div>
+                    @{
+                        var fullName = User.Identity?.Name ?? "";
+                        var initials = string.Join("", fullName
+                        .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(n => n[0]))
+                        .ToUpper();
+                    }
+                    <div class="avatar">@initials</div>
                     <div>
-                        <strong>Customer</strong><br />
-                        <small class="text-muted">customer@carrental</small>
+                        <strong>@User.Identity?.Name</strong><br />
+                        <small class="text-muted">@User.FindFirst("Email")?.Value</small>
                     </div>
                 </div>
                 <a href="/Account/Logout" class="btn btn-outline-primary btn-sm w-100">Logout</a>
@@ -184,6 +186,11 @@
                 </button>
             </div>
 
+            <!-- Welcome Message -->
+            <div id="welcomeMsg" class="alert alert-dark border border-danger shadow-sm mb-4">
+                👋 Welcome, <strong>@User.Identity?.Name</strong>!
+            </div>
+
             <!-- Body content -->
             @RenderBody()
         </main>
@@ -198,3 +205,13 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<script>
+    // Auto hide welcome message after 5 seconds
+    setTimeout(() => {
+        const msg = document.getElementById("welcomeMsg");
+        if (msg) {
+            msg.classList.add("fade");
+            setTimeout(() => msg.remove(), 500); 
+        }
+    }, 5000);
+</script>

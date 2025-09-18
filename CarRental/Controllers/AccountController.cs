@@ -23,7 +23,7 @@ namespace CarRental.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginVm)
+        public async Task<IActionResult> CustomerLogin(LoginViewModel loginVm)
         {
             if (!ModelState.IsValid)
                 return View(loginVm);
@@ -32,15 +32,15 @@ namespace CarRental.Controllers
 
             if (customer == null)
             {
-                ModelState.AddModelError("", "Customer not found. Please check your username/email and password.");
+                ModelState.AddModelError("", "Invalid username/email or password");
                 return View(loginVm);
             }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, customer.UserName ?? customer.Email),
-                new Claim("CustomerId", customer.Id.ToString()),
-                new Claim(ClaimTypes.Name,customer.Name)
+                new Claim(ClaimTypes.Name, customer.Name),                  // Display Name
+                new Claim(ClaimTypes.Email, customer.Email),                // Email
+                new Claim("CustomerId", customer.Id.ToString())             // Custom ID claim
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
