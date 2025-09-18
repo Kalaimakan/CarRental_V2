@@ -47,7 +47,7 @@ namespace CarRental.Controllers
         }
 
 
-            [HttpGet]
+        [HttpGet]
         public IActionResult Contact()
         {
             return View(new ContactViewModel());
@@ -63,6 +63,11 @@ namespace CarRental.Controllers
                 ModelState.Clear();
             }
             return View(model);
+        }
+
+        public IActionResult Gallery()
+        {
+            return View();
         }
     }
 }
