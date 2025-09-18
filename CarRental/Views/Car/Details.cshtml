@@ -1,4 +1,8 @@
-﻿@model CarRental.DTOs.CarDto
+﻿@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@model CarRental.DTOs.CarDto
 
 <div class="container my-5">
     <div class="card car-detail-card shadow-lg rounded-4 p-3">
@@ -73,7 +77,7 @@
                     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
                     @if (Model.Status)
                     {
-                        <a asp-controller="Booking" asp-action="Add" asp-route-carId="@Model.Id"
+                        <a asp-controller="Booking" asp-action="Book" asp-route-carId="@Model.Id"
                            class="btn btn-primary fw-bold rounded-pill px-4">Book Now</a>
                     }
                 </div>
