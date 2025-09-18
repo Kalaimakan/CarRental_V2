@@ -21,23 +21,26 @@
         </div>
 
         <!-- Top Actions -->
-        <div class="d-flex flex-wrap justify-content-between align-items-center px-3 py-3 actions-bar">
+        <div class="actions-bar d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 px-3 py-3">
 
             <!-- Search Bar -->
-            <form asp-action="SearchCar" method="get" class="row g-2 g-md-3 align-items-center flex-grow-1 me-2">
-                <div class="col-md-4">
-                    <input type="text" name="brand" class="form-control custom-search" placeholder="Search by Brand" value="@Context.Request.Query["brand"]" />
+            <form asp-action="SearchCar" method="get"
+                  class="row g-2 g-md-3 align-items-center flex-grow-1">
+                <div class="col-12 col-md-4">
+                    <input type="text" name="brand" class="form-control custom-search"
+                           placeholder="Search by Brand" value="@Context.Request.Query["brand"]" />
                 </div>
-                <div class="col-md-4">
-                    <input type="text" name="model" class="form-control custom-search" placeholder="Search by Model" value="@Context.Request.Query["model"]" />
+                <div class="col-12 col-md-4">
+                    <input type="text" name="model" class="form-control custom-search"
+                           placeholder="Search by Model" value="@Context.Request.Query["model"]" />
                 </div>
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-info fw-bold">Search</button>
+                <div class="col-12 col-md-2 d-grid">
+                    <button type="submit" class="btn btn-info fw-bold shadow-sm">Search</button>
                 </div>
             </form>
 
             <!-- Add Car Button -->
-            <a class="btn btn-primary fw-bold shadow-sm" asp-action="Add">
+            <a class="btn btn-primary fw-bold shadow-sm w-100 w-md-auto" asp-action="Add">
                 <i class="bi bi-plus-circle me-1"></i> Add Car
             </a>
         </div>
@@ -85,7 +88,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <div class="d-flex justify-content-center gap-2">
+                                    <div class="d-flex justify-content-center gap-2 flex-wrap">
                                         @foreach (var img in car.Images.Take(2))
                                         {
                                             <img src="~/images/@img.FileName"
@@ -94,7 +97,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex justify-content-center gap-1">
+                                    <div class="d-flex justify-content-center gap-1 flex-wrap">
                                         <a class="btn btn-outline-info btn-sm" asp-action="Update" asp-route-id="@car.Id">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
@@ -124,12 +127,13 @@
     body {
         background-color: #0b0f1a;
         font-family: 'Segoe UI', sans-serif;
+        color: #f1f5f9;
     }
 
-    /* Professional Alert */
+    /* Alert */
     .professional-alert {
         backdrop-filter: blur(6px);
-        background-color: rgba(0, 128, 255, 0.2);
+        background-color: rgba(0, 128, 255, 0.15);
         border: 1px solid rgba(0,128,255,0.5);
         color: #fff;
     }
@@ -139,32 +143,30 @@
         border-radius: 1rem;
         background-color: rgba(10,25,47,0.95);
         backdrop-filter: blur(14px);
-        color: #f1f5f9;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
         .dashboard-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
         }
 
-    /* Card Header */
+    /* Header */
     .dashboard-header {
-        background: linear-gradient(90deg, #0d1b2a, #1b263b);
+        background: linear-gradient(90deg, #0d1b2a, #1b263b, #415a77);
         border-bottom: 1px solid rgba(0,128,255,0.4);
-        border-radius: 1rem 1rem 0 0;
     }
 
-    /* Top Actions Bar */
+    /* Top Actions */
     .actions-bar {
-        background-color: rgba(0,0,0,0.3);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        border-radius: 0 0 0.5rem 0.5rem;
+        background-color: rgba(0,0,0,0.35);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        border-radius: 0 0 1rem 1rem;
     }
 
     /* Table */
     .professional-table thead.table-header {
-        background-color: rgba(0,128,255,0.2);
+        background: rgba(0,128,255,0.25);
         color: #fff;
         font-weight: 600;
     }
@@ -175,7 +177,7 @@
     }
 
         .professional-table tbody tr:hover {
-            background-color: rgba(0, 128, 255, 0.15);
+            background-color: rgba(0,128,255,0.15);
             transform: scale(1.01);
         }
 
@@ -190,7 +192,7 @@
         color: #fff;
     }
 
-    /* Badges */
+    /* Status Badges */
     .badge-available {
         background: linear-gradient(135deg, #00ff7f, #00c853);
         color: #fff;
@@ -207,7 +209,7 @@
         border-radius: 6px;
     }
 
-    /* Images Preview */
+    /* Car Images */
     .img-preview {
         width: 60px;
         height: 40px;
@@ -226,10 +228,10 @@
 
         .custom-search:focus {
             background-color: rgba(255,255,255,0.15);
-            color: #fff;
             border-color: rgba(0,128,255,0.7);
             box-shadow: 0 0 6px rgba(0,128,255,0.5);
             outline: none;
+            color: #fff;
         }
 
     /* Scrollbar */
@@ -238,12 +240,11 @@
     }
 
     .table-responsive::-webkit-scrollbar-thumb {
-        background: rgba(0,128,255,0.5);
+        background: rgba(0,128,255,0.6);
         border-radius: 10px;
     }
 
     .table-responsive::-webkit-scrollbar-track {
         background: rgba(255,255,255,0.05);
-        border-radius: 10px;
     }
 </style>
