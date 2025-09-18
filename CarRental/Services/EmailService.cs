@@ -6,8 +6,8 @@ namespace CarRental.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly string _fromEmail = "kalaimakan1510@gmail.com";
-        private readonly string _appPassword = "ltorbirocvxrhrvd";
+        private readonly string _fromEmail = "info.easyriderentals@gmail.com";
+        private readonly string _appPassword = "ihrqtxcyqzwdxnnf";
         public void SendEmail(string to, string subject, string body)
         {
             var smtp = new SmtpClient("smtp.gmail.com", 587)
@@ -16,7 +16,7 @@ namespace CarRental.Services
                 EnableSsl = true
             };
 
-            smtp.Send("kalaimakan1510@gmail.com", to, subject, body);
+            smtp.Send("info.easyriderentals@gmail.com", to, subject, body);
         }
     }
 }

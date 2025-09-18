@@ -25,19 +25,19 @@ namespace CarRental.Controllers
 
         //Testing Gmail OTP
 
-        //[HttpGet]
-        //public IActionResult TestEmail()
-        //{
-        //    try
-        //    {
-        //        _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
-        //        return Content("Email sent successfully!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content("Email sending failed: " + ex.Message);
-        //    }
-        //}
+        [HttpGet]
+        public IActionResult TestEmail()
+        {
+            try
+            {
+                _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
+                return Content("Email sent successfully!");
+            }
+            catch (Exception ex)
+            {
+                return Content("Email sending failed: " + ex.Message);
+            }
+        }
 
 
         //register page
@@ -238,7 +238,7 @@ namespace CarRental.Controllers
                     _emailService.SendEmail(
                 dto.Email,
                 $"Welcome to Our Family, {dto.Name}!",
-                $"Hello {dto.Name}, welcome aboard! Your login details:\n   Username: {dto.UserName}\n  Password: {dto.Password}\nWarm regards, Car Rental Team");
+                $"Hello {dto.Name}, welcome aboard! Your login details:\n   Username: {dto.UserName}\n   Password: {dto.Password}\nWarm regards, Car Rental Team");
                     TempData["SuccessMessage"] = $"{dto.Name} has been added successfully!";
                 }
                 return RedirectToAction("ViewCustomer");
