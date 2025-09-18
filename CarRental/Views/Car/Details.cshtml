@@ -73,12 +73,12 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
+                <div class="d-flex justify-content-between mt-4 button-container">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-detail fw-bold rounded-pill px-4">← Back</a>
                     @if (Model.Status)
                     {
                         <a asp-controller="Booking" asp-action="Book" asp-route-carId="@Model.Id"
-                           class="btn btn-primary fw-bold rounded-pill px-4">Book Now</a>
+                           class="btn btn-detail fw-bold rounded-pill px-4">Book Now</a>
                     }
                 </div>
             </div>
@@ -87,11 +87,26 @@
 </div>
 
 <style>
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     .car-detail-card {
-        background-color: #121212;
-        border: 1px solid #ff0000;
-        box-shadow: 0 0 10px rgba(255,0,0,0.3);
+        background-color: var(--dark-bg);
+        border: 1px solid var(--primary-red);
+        border-radius: 10px;
+        color: var(--light-text);
+        overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 0 10px rgba(255,0,0,0.3);
     }
 
         .car-detail-card:hover {
@@ -101,6 +116,11 @@
 
     .carousel-inner img {
         border-radius: 10px;
+        transition: transform 0.5s ease;
+    }
+
+    .car-detail-card:hover .carousel-inner img {
+        transform: scale(1.05);
     }
 
     .glow-badge {
@@ -108,19 +128,25 @@
         font-weight: 600;
     }
 
-    .btn-primary {
-        background-color: #ff0000;
-        border: none;
-        font-weight: 600;
-    }
-
-        .btn-primary:hover {
-            background-color: transparent;
-            transform: translateY(-2px);
-            box-shadow: 0 0px 10px 3px #ff0000;
-        }
-
     .text-secondary {
         color: #adb5bd !important;
     }
+
+    /* 🔹 Buttons same size + hover effect */
+    .button-container .btn-detail {
+        background-color: var(--primary-red);
+        color: var(--light-text);
+        border: none;
+        font-weight: 600;
+        width: 48%;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+        .button-container .btn-detail:hover {
+            background-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 0px 10px 3px var(--primary-red);
+        }
+
 </style>
