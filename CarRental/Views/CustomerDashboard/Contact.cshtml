@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Contact Us";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container my-5">
@@ -44,4 +44,6 @@
     </div>
 </div>
 
-<partial name="_ValidationScriptsPartial" />
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -26,10 +26,10 @@ namespace CarRental.Controllers
         // Browse cars page
         public IActionResult ShowAllCars()
         {
-            var cars = carService.GetAllCars(); // Make sure this returns a List<CarDto>
+            var cars = carService.GetAllCars();
 
             if (cars == null)
-                cars = new List<CarRental.DTOs.CarDto>(); // prevent null reference
+                cars = new List<CarRental.DTOs.CarDto>();
 
             return View(cars);
         }
@@ -37,18 +37,6 @@ namespace CarRental.Controllers
         // My bookings page
         public IActionResult MyBookings()
         { 
-            return View();
-        }
-
-        // Feedback page
-        public IActionResult Feedback()
-        { 
-            return View();
-        }
-
-        // Help & FAQ page
-        public IActionResult Help()
-        {
             return View();
         }
     }

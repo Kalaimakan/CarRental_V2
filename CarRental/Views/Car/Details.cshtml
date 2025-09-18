@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
+                    <a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
                     @if (Model.Status)
                     {
                         <a asp-controller="Booking" asp-action="Book" asp-route-carId="@Model.Id"
