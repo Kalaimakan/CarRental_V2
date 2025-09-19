@@ -24,7 +24,6 @@ namespace CarRental.Repositories
             return db.Bookings
                 .Include(b => b.Car)
                 .Include(b => b.Payment)
-                .Include(b => b.Customer)
                 .FirstOrDefault(b => b.Id == id);
         }
     }

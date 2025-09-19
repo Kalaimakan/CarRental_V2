@@ -1,14 +1,8 @@
-﻿@{
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
-}
+﻿@model CarRental.ViewModels.PaymentViewModel
 
-@model CarRental.ViewModels.PaymentViewModel
-
-<div class="container d-flex justify-content-center align-items-center" style="min-height:100vh; background: linear-gradient(135deg, #0f0f0f, #1a1a1a);">
-    <div class="card p-4 shadow-lg text-white"
-         style="width: 420px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15);">
-
-        <h4 class="mb-3 text-center fw-bold text-danger">💳 Payment</h4>
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4 shadow-lg" style="width: 400px;">
+        <h4 class="mb-3">Payment</h4>
 
         <div class="mb-3">
             <strong>Car:</strong> @Model.CarModel <br />
@@ -31,27 +25,17 @@
             <div id="card-section">
                 <div class="mb-3">
                     <label>Cardholder Name</label>
-                    <input asp-for="CardHolder" class="form-control glass-input" required />
+                    <input asp-for="CardHolder" class="form-control" />
                 </div>
 
                 <div class="mb-3">
                     <label>Card Number</label>
-                    <input asp-for="CardNumber"
-                           class="form-control glass-input"
-                           required
-                           pattern="\d{16}"
-                           maxlength="16"
-                           title="Card number must be exactly 16 digits" />
+                    <input asp-for="CardNumber" class="form-control" />
                 </div>
 
                 <div class="mb-3">
                     <label>CVV</label>
-                    <input asp-for="CVV"
-                           class="form-control glass-input"
-                           required
-                           pattern="\d{3}"
-                           maxlength="3"
-                           title="CVV must be exactly 3 digits" />
+                    <input asp-for="CVV" class="form-control" />
                 </div>
             </div>
 
@@ -59,70 +43,24 @@
             <div id="paypal-section" style="display:none;">
                 <div class="mb-3">
                     <label>PayPal Email</label>
-                    <input asp-for="PayPalEmail" type="email" class="form-control glass-input" placeholder="example@paypal.com" />
+                    <input type="email" name="PayPalEmail" class="form-control" placeholder="example@paypal.com" />
                 </div>
             </div>
 
             <!-- Cash Section -->
             <div id="cash-section" style="display:none;">
-                <div class="alert alert-info p-2" style="background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(8px); color: #fff;">
+                <div class="alert alert-info p-2">
                     Please pay cash at the counter when picking up the car.
                 </div>
             </div>
-            <a asp-controller="CustomerDashboard" asp-action="Index" class="btn btn-pay w-100 mt-3">Pay Now</a>
+
+            <button type="submit" class="btn btn-success w-100">Pay Now</button>
         </form>
     </div>
 </div>
 
-    <style>
-        /* 🔹 Glass Input Fields */
-        .glass-input {
-            border-radius: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-        }
-
-            .glass-input:focus {
-                outline: none;
-                box-shadow: 0 0 12px rgba(217, 4, 41, 0.7);
-                border-color: #d90429;
-            }
-
-        /* 🔹 Pay Now Button */
-        .btn-pay {
-            background: #d90429;
-            color: #fff;
-            font-weight: bold;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(217,4,41,0.5);
-        }
-
-            .btn-pay:hover {
-                background: #ff1e56;
-                transform: scale(1.05);
-                box-shadow: 0 0 15px rgba(255,30,86,0.7);
-            }
-
-        /* 🔹 Radio Labels */
-        input[type="radio"] {
-            accent-color: #d90429;
-            margin-right: 5px;
-        }
-
-        /* 🔹 Real-time validation red border */
-        input:invalid {
-            border-color: #ff1e56;
-            box-shadow: 0 0 5px rgba(255,30,86,0.7);
-        }
-    </style>
-
+@section Scripts {
     <script>
-        // Toggle payment sections
         document.querySelectorAll("input[name='Method']").forEach(radio => {
             radio.addEventListener("change", function () {
                 document.getElementById("card-section").style.display = (this.value === "CreditDebit") ? "block" : "none";
@@ -131,4 +69,4 @@
             });
         });
     </script>
-
+}

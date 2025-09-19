@@ -19,7 +19,6 @@ namespace CarRental.ViewModels
         public DateTime DropOffDate { get; set; }
 
         public decimal TotalAmount { get; set; }
-        public Guid CustomerId { get; set; }
 
         // 🔹 Custom Validation Method
         public static ValidationResult ValidateDropOffDate(DateTime dropOff, ValidationContext context)

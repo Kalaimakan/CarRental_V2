@@ -1,11 +1,8 @@
-﻿@{
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
-}
-
-@model CarRental.ViewModels.BookingViewModel
+﻿@model CarRental.ViewModels.BookingViewModel
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height:100vh; background: linear-gradient(135deg, #0f0f0f, #1a1a1a);">
-    <div class="card p-4 shadow-lg text-white booking-card">
+    <div class="card p-4 shadow-lg text-white"
+         style="width: 450px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15);">
 
         <h4 class="mb-3 text-center fw-bold text-danger">🚗 Book Your Rental</h4>
 
@@ -14,136 +11,122 @@
         <h5 class="text-center">@Model.CarBrand @Model.CarModel</h5>
         <hr class="border-light" />
 
-        <form asp-action="Book" method="post" id="bookingForm">
+        <form asp-action="Book" method="post">
             <input type="hidden" asp-for="CarId" />
             <input type="hidden" id="PricePerDay" value="@Model.PricePerDay" />
 
+            <!-- Pick-up DateTime -->
             <div class="mb-3">
-                <label class="fw-bold">Pick-up Date</label>
-                <input asp-for="PickUpDate" type="date" class="form-control booking-input" id="pickUpDate" />
+                <label class="fw-bold">Pick-up Date & Time</label>
+                <input asp-for="PickUpDate" type="datetime-local" class="form-control bg-dark text-white border-0 shadow-sm" id="pickUpDate" />
+                <span asp-validation-for="PickUpDate" class="text-danger small"></span>
             </div>
 
+            <!-- Drop-off DateTime -->
             <div class="mb-3">
-                <label class="fw-bold">Drop-off Date</label>
-                <input asp-for="DropOffDate" type="date" class="form-control booking-input" id="dropOffDate" />
-                <div id="errorMsg" class="error-msg"></div>
+                <label class="fw-bold">Drop-off Date & Time</label>
+                <input asp-for="DropOffDate" type="datetime-local" class="form-control bg-dark text-white border-0 shadow-sm" id="dropOffDate" />
+                <span asp-validation-for="DropOffDate" class="text-danger small"></span>
             </div>
 
+            <!-- Total -->
             <div class="mb-3">
-                <label class="fw-bold">Total Amount</label>
-                <input asp-for="TotalAmount" class="form-control booking-input" id="totalAmount" readonly />
+                <label class="fw-bold">Total Amount ($)</label>
+                <input asp-for="TotalAmount" class="form-control bg-dark text-white border-0 shadow-sm" id="totalAmount" readonly />
             </div>
 
-            <!-- Buttons with Back Left, Confirm Right -->
-            <div class="d-flex justify-content-between gap-2 mt-3">
-                <button type="button" class="btn btn-back flex-fill me-2" onclick="history.back()">Back</button>
-                <button asp-controller="Booking" asp-action="Payment" type="submit" class="btn btn-confirm flex-fill ms-2">Confirm Booking</button>
+            <!-- Error Message -->
+            <div id="dateError" class="text-danger small mb-2" style="display:none;"></div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn flex-fill btn-confirm">Confirm Booking</button>
+                <button type="button" class="btn flex-fill btn-back" onclick="history.back()">Back</button>
             </div>
         </form>
     </div>
 </div>
 
-<style>
-    /* 🔹 Booking Card Glass Theme */
-    .booking-card {
-        width: 420px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 0, 0, 0.3);
-        box-shadow: 0 0 10px rgba(255,0,0,0.3);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .booking-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px 10px rgba(255,0,0,0.6);
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-    /* 🔹 Inputs */
-    .booking-input {
-        border-radius: 10px;
-        padding: 10px;
-        background-color: #121212;
-        color: #f8f9fa;
-        border: none;
-        box-shadow: 0 0 5px rgba(255,0,0,0.3);
-        transition: all 0.3s ease;
-    }
-    .booking-input:focus {
-        outline: none;
-        box-shadow: 0 0 12px rgba(255,0,0,0.7);
-    }
-
-    /* 🔹 Buttons same as car card */
-    .car-card-btn {
-        background-color: #d90429;
-        color: #fff;
-        font-weight: 600;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(217,4,41,0.5);
-        transition: all 0.3s ease;
-        text-align: center;
-        padding: 10px 0;
-    }
-    .car-card-btn:hover {
-        background-color: #ff1e56;
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 0 15px rgba(255,30,86,0.7);
-    }
-
-    /* 🔹 Error message */
-    .error-msg {
-        color: #ff4d6d;
-        font-size: 0.9rem;
-        margin-top: 5px;
-    }
-</style>
-
-<script>
-    const pricePerDay = parseFloat(document.getElementById("PricePerDay").value);
-    const pickUpInput = document.getElementById("pickUpDate");
-    const dropOffInput = document.getElementById("dropOffDate");
-    const totalInput = document.getElementById("totalAmount");
-    const errorMsg = document.getElementById("errorMsg");
-    const form = document.getElementById("bookingForm");
-
-    function calculateTotal() {
-        const pickUpDate = new Date(pickUpInput.value);
-        const dropOffDate = new Date(dropOffInput.value);
-
-        if (!pickUpInput.value || !dropOffInput.value) {
-            totalInput.value = "";
-            errorMsg.textContent = "";
-            return;
+    <style>
+        /* 🔹 Buttons */
+        .btn-confirm {
+            background: #d90429;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        const diffTime = dropOffDate - pickUpDate;
-        const diffHours = diffTime / (1000 * 60 * 60);
+            .btn-confirm:hover {
+                background: #ff1e56;
+                transform: scale(1.05);
+                box-shadow: 0 0 12px rgba(255, 30, 86, 0.6);
+            }
 
-        if (diffHours < 24) {
-            totalInput.value = "";
-            errorMsg.textContent = "Drop-off date must be at least 24 hours after Pick-up date";
-            return false;
-        } else {
-            errorMsg.textContent = "";
+        .btn-back {
+            background: #222;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const total = days * pricePerDay;
-        totalInput.value = total.toFixed(2);
-    }
+            .btn-back:hover {
+                background: #444;
+                transform: scale(1.05);
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+            }
 
-    pickUpInput.addEventListener("change", calculateTotal);
-    dropOffInput.addEventListener("change", calculateTotal);
-
-    form.addEventListener("submit", function (e) {
-        const pickUpDate = new Date(pickUpInput.value);
-        const dropOffDate = new Date(dropOffInput.value);
-        const diffHours = (dropOffDate - pickUpDate) / (1000 * 60 * 60);
-
-        if (diffHours < 24) {
-            e.preventDefault();
-            errorMsg.textContent = "Drop-off date must be at least 24 hours after Pick-up date";
+        /* 🔹 Inputs */
+        input.form-control {
+            border-radius: 10px;
+            padding: 10px;
+            transition: all 0.3s ease;
         }
-    });
-</script>
+
+            input.form-control:focus {
+                outline: none;
+                box-shadow: 0 0 10px rgba(217, 4, 41, 0.7);
+            }
+    </style>
+
+    <script>
+        const pricePerDay = parseFloat(document.getElementById("PricePerDay").value);
+
+        function calculateTotal() {
+            const pickUpValue = document.getElementById("pickUpDate").value;
+            const dropOffValue = document.getElementById("dropOffDate").value;
+            const errorMsg = document.getElementById("dateError");
+
+            if (!pickUpValue || !dropOffValue) {
+                document.getElementById("totalAmount").value = "";
+                errorMsg.style.display = "none";
+                return;
+            }
+
+            const pickUpDate = new Date(pickUpValue);
+            const dropOffDate = new Date(dropOffValue);
+
+            if (!isNaN(pickUpDate) && !isNaN(dropOffDate)) {
+                if (dropOffDate <= new Date(pickUpDate.getTime() + 24 * 60 * 60 * 1000)) {
+                    document.getElementById("totalAmount").value = "";
+                    errorMsg.innerText = "❌ Drop-off must be at least 24 hours after Pick-up";
+                    errorMsg.style.display = "block";
+                } else {
+                    const diffTime = dropOffDate - pickUpDate;
+                    const days = diffTime / (1000 * 60 * 60 * 24);
+                    const total = Math.ceil(days) * pricePerDay;
+
+                    document.getElementById("totalAmount").value = total.toFixed(2);
+                    errorMsg.style.display = "none";
+                }
+            }
+        }
+
+        document.getElementById("pickUpDate").addEventListener("change", calculateTotal);
+        document.getElementById("dropOffDate").addEventListener("change", calculateTotal);
+    </script>
+}

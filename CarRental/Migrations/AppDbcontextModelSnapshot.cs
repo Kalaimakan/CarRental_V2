@@ -63,9 +63,6 @@ namespace CarRental.Migrations
                     b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DropOffDate")
                         .HasColumnType("datetime2");
 
@@ -78,8 +75,6 @@ namespace CarRental.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Bookings");
                 });
@@ -237,9 +232,6 @@ namespace CarRental.Migrations
                     b.Property<DateTime>("PaidOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PayPalEmail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId")
@@ -256,15 +248,7 @@ namespace CarRental.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarRental.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Car");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("CarRental.Models.CarImage", b =>
