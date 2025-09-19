@@ -160,24 +160,41 @@
                 <div class="avatar me-2">CR</div>
                 <div>
                     <h5 class="mb-0">CarRental</h5>
-                    <small class="text-muted">Customer Dashboard</small>
+                    <small class="text-white">Customer Dashboard</small>
                 </div>
             </div>
 
             <ul class="nav flex-column gap-1">
-                <li class="nav-item"><a href="/CustomerDashboard/Index" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li class="nav-item"><a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="nav-link"><i class="bi bi-car-front"></i> Browse Cars</a></li>
-                <li class="nav-item"><a href="/Bookings/MyBookings" class="nav-link"><i class="bi bi-journal-text"></i> My Bookings</a></li>
-                <li class="nav-item"><a href="/Feedback/Create" class="nav-link"><i class="bi bi-chat-dots"></i> Feedback</a></li>
-                <li class="nav-item"><a href="/Help/Index" class="nav-link"><i class="bi bi-question-circle"></i> Help & FAQ</a></li>
+                <li class="nav-item">
+                    <a asp-controller="CustomerDashboard" asp-action="Index" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="nav-link"><i class="bi bi-car-front"></i> Browse Cars</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Bookings/MyBookings" class="nav-link"><i class="bi bi-journal-text"></i> My Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Contact" class="nav-link"><i class="bi bi-chat-dots"></i> Feedback</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Help/Index" class="nav-link"><i class="bi bi-question-circle"></i> Help & FAQ</a>
+                </li>
             </ul>
 
             <div class="profile mt-auto">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <div class="avatar">C</div>
+                    @{
+                        var fullName = User.Identity?.Name ?? "";
+                        var initials = string.Join("", fullName
+                        .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(n => n[0]))
+                        .ToUpper();
+                    }
+                    <div class="avatar">@initials</div>
                     <div>
-                        <strong>Customer</strong><br />
-                        <small class="text-muted">customer@carrental</small>
+                        <strong>@User.Identity?.Name</strong><br />
+                        <small class="text-muted">@User.FindFirst("Email")?.Value</small>
                     </div>
                 </div>
                 <a href="/Account/Logout" class="btn btn-outline-primary btn-sm w-100">Logout</a>
@@ -188,11 +205,12 @@
         <main class="main-content">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button id="sidebarToggle" class="btn btn-outline-primary d-md-none">☰</button>
-                <h4 class="mb-0">@ViewData["Title"]</h4>
+                <h2 class="mb-0">@ViewData["Title"]</h2>
                 <button id="themeToggle" class="btn btn-sm btn-outline-secondary">
-                    <span id="themeIcon">🌙 Dark</span>
                 </button>
             </div>
+
+
 
             <!-- Body content: Render your pages (Available Cars etc.) -->
             @RenderBody()

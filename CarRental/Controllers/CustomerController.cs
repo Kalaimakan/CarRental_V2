@@ -129,7 +129,7 @@ namespace CarRental.Controllers
                     };
                     await _service.AddCustomerAsync(dto);
                 }
-                return RedirectToAction("Account", "CustomerLogin");
+                return RedirectToAction("CustomerLogin", "Account");
             }
             ModelState.AddModelError("", "Invalid OTP");
             return View(model);
