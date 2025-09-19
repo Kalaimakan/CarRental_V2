@@ -2,6 +2,7 @@
 using CarRental.Models;
 using CarRental.Services;   // ✅ Add this namespace for ICarService
 using CarRental.ViewModels;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -25,8 +26,8 @@ namespace CarRental.Controllers
         public IActionResult Index()
         {
 
-            var cars = _carService.GetAllCars(); // from Service -> Repository -> DB
-            return View(cars); // pass to view (List<CarDto>)
+            var cars = _carService.GetAllCars();
+            return View(cars);
         }
 
         public IActionResult Privacy()
@@ -47,7 +48,7 @@ namespace CarRental.Controllers
         }
 
 
-            [HttpGet]
+        [HttpGet]
         public IActionResult Contact()
         {
             return View(new ContactViewModel());
@@ -63,6 +64,21 @@ namespace CarRental.Controllers
                 ModelState.Clear();
             }
             return View(model);
+        }
+
+        public IActionResult Gallery()
+        {
+            var cars = _carService.GetAllCars();
+
+            if (cars == null)
+                cars = new List<CarRental.DTOs.CarDto>();
+
+            return View(cars);
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
         }
     }
 }

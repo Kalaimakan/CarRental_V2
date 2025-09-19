@@ -34,10 +34,10 @@
                 <input asp-for="TotalAmount" class="form-control booking-input" id="totalAmount" readonly />
             </div>
 
-            <!-- Buttons with same size + hover like car cards -->
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" class="btn car-card-btn flex-fill" onclick="history.back()">Back</button>
-                <button type="submit" class="btn car-card-btn flex-fill">Confirm Booking</button>
+            <!-- Buttons with Back Left, Confirm Right -->
+            <div class="d-flex justify-content-between gap-2 mt-3">
+                <button type="button" class="btn btn-back flex-fill me-2" onclick="history.back()">Back</button>
+                <button asp-controller="Booking" asp-action="Payment" type="submit" class="btn btn-confirm flex-fill ms-2">Confirm Booking</button>
             </div>
         </form>
     </div>
