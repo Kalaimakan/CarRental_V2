@@ -165,11 +165,21 @@
             </div>
 
             <ul class="nav flex-column gap-1">
-                <li class="nav-item"><a asp-controller="CustomerDashboard" asp-action="Index" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li class="nav-item"><a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="nav-link"><i class="bi bi-car-front"></i> Browse Cars</a></li>
-                <li class="nav-item"><a href="/Bookings/MyBookings" class="nav-link"><i class="bi bi-journal-text"></i> My Bookings</a></li>
-                <li class="nav-item"><a asp-controller="Home" asp-action="Contact" class="nav-link"><i class="bi bi-chat-dots"></i> Feedback</a></li>
-                <li class="nav-item"><a href="/Help/Index" class="nav-link"><i class="bi bi-question-circle"></i> Help & FAQ</a></li>
+                <li class="nav-item">
+                    <a asp-controller="CustomerDashboard" asp-action="Index" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="nav-link"><i class="bi bi-car-front"></i> Browse Cars</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Bookings/MyBookings" class="nav-link"><i class="bi bi-journal-text"></i> My Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Contact" class="nav-link"><i class="bi bi-chat-dots"></i> Feedback</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Help/Index" class="nav-link"><i class="bi bi-question-circle"></i> Help & FAQ</a>
+                </li>
             </ul>
 
             <div class="profile mt-auto">
@@ -195,12 +205,12 @@
         <main class="main-content">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button id="sidebarToggle" class="btn btn-outline-primary d-md-none">☰</button>
-                <h4 class="mb-0">@ViewData["Title"]</h4>
+                <h2 class="mb-0">@ViewData["Title"]</h2>
                 <button id="themeToggle" class="btn btn-sm btn-outline-secondary">
                 </button>
             </div>
 
-            
+
 
             <!-- Body content: Render your pages (Available Cars etc.) -->
             @RenderBody()

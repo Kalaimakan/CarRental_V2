@@ -1,11 +1,18 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Gallery";
 }
 
 @model List<CarRental.DTOs.CarDto>
 
+<div class="gallery-hero text-center text-white">
+    <h3 class="display-5 fw-bold animate-slide-down">Our Cars Gallery</h3>
+    <p class="lead animate-slide-up">Explore our exclusive collection of cars available for booking</p>
+</div>
+
+
 <div class="content-container text-white">
-    <div class="container">
+    <div class="container  mt-2 pt-0">
         <div class="row g-4">
             @foreach (var car in Model)
             {
@@ -47,9 +54,9 @@
                                 <span><i class="bi bi-snow me-1"></i>@(car.HasAC ? "AC" : "Non-AC")</span>
                             </div>
 
-                            <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id"
+                            <a asp-controller="Account" asp-action="CustomerLogin" asp-route-id="@car.Id"
                                class="btn btn-primary w-100 mt-auto fw-bold">
-                                <i class="bi bi-eye me-2"></i>View Details
+                                <i class="bi bi-eye me-2"></i>Book Now
                             </a>
                         </div>
                     </div>
@@ -64,6 +71,53 @@
         --primary-red: #ff0000;
         --dark-bg: #121212;
         --light-text: #f8f9fa;
+    }
+
+    .gallery-hero {
+        padding: 80px 20px 20px; /* top padding for space below navbar */
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .animate-slide-down {
+        animation: slideDown 1s ease forwards;
+        opacity: 0;
+    }
+
+    .animate-slide-up {
+        animation: slideUp 1s ease forwards 0.3s; /* delay for subtitle */
+        opacity: 0;
+    }
+
+    @@keyframes slideDown {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    @@keyframes slideUp {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     }
 
     body {
