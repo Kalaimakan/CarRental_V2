@@ -6,7 +6,6 @@
         public string CarModel { get; set; }
         public string Dates { get; set; }
         public decimal Total { get; set; }
-
         public string Method { get; set; }
 
         // Credit/Debit

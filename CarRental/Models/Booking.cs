@@ -7,13 +7,11 @@ namespace CarRental.Models
         [Key]
         public Guid Id { get; set; }
         public Guid CarId { get; set; }
-        public Guid CustomerId { get; set; }
         public DateTime PickUpDate { get; set; }
         public DateTime DropOffDate { get; set; }
         public decimal TotalAmount { get; set; }
 
         public Car Car { get; set; }
-        public Customer Customer { get; set; }
         public Payment Payment { get; set; }
     }
 }

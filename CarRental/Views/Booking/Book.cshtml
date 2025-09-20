@@ -4,146 +4,181 @@
 
 @model CarRental.ViewModels.BookingViewModel
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height:100vh; background: linear-gradient(135deg, #0f0f0f, #1a1a1a);">
-    <div class="card p-4 shadow-lg text-white booking-card">
+<div class="container py-5" style="min-height:100vh; background: linear-gradient(135deg, #0f0f0f, #1a1a1a);">
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 900px; border-radius: 20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255,0,0,0.6);">
+        <h4 class="mb-4 text-center fw-bold text-danger">🚗 Book Your Rental</h4>
 
-        <h4 class="mb-3 text-center fw-bold text-danger">🚗 Book Your Rental</h4>
-
-        <img src="~/images/@Model.CarImage" class="img-fluid rounded mb-3 shadow-sm" style="border-radius:15px;" />
-
-        <h5 class="text-center">@Model.CarBrand @Model.CarModel</h5>
-        <hr class="border-light" />
-
-        <form asp-action="Book" method="post" id="bookingForm">
+        <form id="bookingForm" asp-action="Book" method="post">
             <input type="hidden" asp-for="CarId" />
             <input type="hidden" id="PricePerDay" value="@Model.PricePerDay" />
 
-            <div class="mb-3">
-                <label class="fw-bold">Pick-up Date</label>
-                <input asp-for="PickUpDate" type="date" class="form-control booking-input" id="pickUpDate" />
+            <div class="row g-4">
+                <!-- Left column: Car info -->
+                <div class="col-md-5 text-center">
+                    <img src="~/images/@Model.CarImage" class="img-fluid rounded shadow-sm card-img-top mb-3" style="border-radius:15px;" />
+                    <h5 class="fw-bold">@Model.CarBrand @Model.CarModel</h5>
+                </div>
+
+                <!-- Right column: Booking details -->
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <label class="fw-bold">Pick-up Date & Time</label>
+                        <input asp-for="PickUpDate" type="text" class="form-control datetimepicker bg-dark text-white border-0 shadow-sm" id="pickUpDate" placeholder="Select Pick-up" />
+                        <span asp-validation-for="PickUpDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold">Drop-off Date & Time</label>
+                        <input asp-for="DropOffDate" type="text" class="form-control datetimepicker bg-dark text-white border-0 shadow-sm" id="dropOffDate" placeholder="Select Drop-off" />
+                        <span asp-validation-for="DropOffDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold">Total Amount ($)</label>
+                        <input asp-for="TotalAmount" class="form-control bg-dark text-white border-0 shadow-sm" id="totalAmount" readonly />
+                    </div>
+
+                    <div id="dateError" class="text-danger small mb-2" style="display:none;"></div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="fw-bold">Drop-off Date</label>
-                <input asp-for="DropOffDate" type="date" class="form-control booking-input" id="dropOffDate" />
-                <div id="errorMsg" class="error-msg"></div>
-            </div>
-
-            <div class="mb-3">
-                <label class="fw-bold">Total Amount</label>
-                <input asp-for="TotalAmount" class="form-control booking-input" id="totalAmount" readonly />
-            </div>
-
-            <!-- Buttons with Back Left, Confirm Right -->
-            <div class="d-flex justify-content-between gap-2 mt-3">
-                <button type="button" class="btn btn-back flex-fill me-2" onclick="history.back()">Back</button>
-                <button asp-controller="Booking" asp-action="Payment" type="submit" class="btn btn-confirm flex-fill ms-2">Confirm Booking</button>
+            <div class="d-flex gap-2 mt-4">
+                <button type="button" class="btn btn-card flex-fill" onclick="history.back()">Back</button>
+                <button type="submit" class="btn btn-card flex-fill">Confirm Booking</button>
             </div>
         </form>
     </div>
 </div>
 
+<partial name="_ValidationScriptsPartial" />
+
+<!-- Flatpickr JS & CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <style>
-    /* 🔹 Booking Card Glass Theme */
-    .booking-card {
-        width: 420px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 0, 0, 0.3);
-        box-shadow: 0 0 10px rgba(255,0,0,0.3);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .booking-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px 10px rgba(255,0,0,0.6);
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
     }
 
-    /* 🔹 Inputs */
-    .booking-input {
+    body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    input.form-control {
         border-radius: 10px;
         padding: 10px;
-        background-color: #121212;
-        color: #f8f9fa;
-        border: none;
-        box-shadow: 0 0 5px rgba(255,0,0,0.3);
         transition: all 0.3s ease;
     }
-    .booking-input:focus {
-        outline: none;
-        box-shadow: 0 0 12px rgba(255,0,0,0.7);
-    }
 
-    /* 🔹 Buttons same as car card */
-    .car-card-btn {
-        background-color: #d90429;
+        input.form-control:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255,0,0,0.7);
+        }
+
+    .btn-card {
+        background-color: var(--primary-red);
         color: #fff;
         font-weight: 600;
+        letter-spacing: 0.5px;
+        border: none;
         border-radius: 12px;
-        box-shadow: 0 0 10px rgba(217,4,41,0.5);
         transition: all 0.3s ease;
-        text-align: center;
-        padding: 10px 0;
-    }
-    .car-card-btn:hover {
-        background-color: #ff1e56;
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 0 15px rgba(255,30,86,0.7);
     }
 
-    /* 🔹 Error message */
-    .error-msg {
-        color: #ff4d6d;
-        font-size: 0.9rem;
-        margin-top: 5px;
+        .btn-card:hover {
+            background-color: #000;
+            color: var(--primary-red);
+            border: 1px solid var(--primary-red);
+            transform: translateY(-2px);
+            box-shadow: 0 0 8px 2px var(--primary-red);
+        }
+
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
     }
+
+        .card-img-top:hover {
+            transform: scale(1.05);
+        }
 </style>
 
 <script>
     const pricePerDay = parseFloat(document.getElementById("PricePerDay").value);
+
+    flatpickr(".datetimepicker", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        minDate: "today"
+    });
+
     const pickUpInput = document.getElementById("pickUpDate");
     const dropOffInput = document.getElementById("dropOffDate");
-    const totalInput = document.getElementById("totalAmount");
-    const errorMsg = document.getElementById("errorMsg");
-    const form = document.getElementById("bookingForm");
+    const totalAmountInput = document.getElementById("totalAmount");
+    const errorMsg = document.getElementById("dateError");
+
+    const now = new Date();
+    const pad = (n) => n.toString().padStart(2, '0');
+
+    pickUpInput.value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    dropOffInput.value = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())} ${pad(tomorrow.getHours())}:${pad(tomorrow.getMinutes())}`;
+
+    function parseDateTime(value) {
+        if (!value) return null;
+        return new Date(value.replace(" ", "T"));
+    }
 
     function calculateTotal() {
-        const pickUpDate = new Date(pickUpInput.value);
-        const dropOffDate = new Date(dropOffInput.value);
+        const pickUpDate = parseDateTime(pickUpInput.value);
+        const dropOffDate = parseDateTime(dropOffInput.value);
 
-        if (!pickUpInput.value || !dropOffInput.value) {
-            totalInput.value = "";
-            errorMsg.textContent = "";
-            return;
+        if (!pickUpDate || !dropOffDate || pricePerDay <= 0) {
+            totalAmountInput.value = "";
+            errorMsg.style.display = "none";
+            return false;
         }
 
         const diffTime = dropOffDate - pickUpDate;
-        const diffHours = diffTime / (1000 * 60 * 60);
+        let total = 0;
 
-        if (diffHours < 24) {
-            totalInput.value = "";
-            errorMsg.textContent = "Drop-off date must be at least 24 hours after Pick-up date";
+        if (diffTime < 24 * 60 * 60 * 1000) {
+            total = pricePerDay;
+            errorMsg.style.display = "block";
+            errorMsg.innerText = "❌ Drop-off must be at least 24 hours after Pick-up. Minimum 1 day charged.";
+            totalAmountInput.value = total.toFixed(2);
+            totalAmountInput.style.borderColor = "red";
             return false;
         } else {
-            errorMsg.textContent = "";
+            const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            total = days * pricePerDay;
+            totalAmountInput.value = total.toFixed(2);
+            errorMsg.style.display = "none";
+            totalAmountInput.style.borderColor = "#28a745"; // green border for valid
+            return true;
         }
-
-        const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const total = days * pricePerDay;
-        totalInput.value = total.toFixed(2);
     }
 
+    // Dynamic update
     pickUpInput.addEventListener("change", calculateTotal);
     dropOffInput.addEventListener("change", calculateTotal);
 
-    form.addEventListener("submit", function (e) {
-        const pickUpDate = new Date(pickUpInput.value);
-        const dropOffDate = new Date(dropOffInput.value);
-        const diffHours = (dropOffDate - pickUpDate) / (1000 * 60 * 60);
-
-        if (diffHours < 24) {
+    // Block invalid form submission
+    document.getElementById("bookingForm").addEventListener("submit", function (e) {
+        const valid = calculateTotal();
+        if (!valid) {
             e.preventDefault();
-            errorMsg.textContent = "Drop-off date must be at least 24 hours after Pick-up date";
+            alert("Please fix the dates before confirming booking.");
         }
     });
+
+    // Calculate total on page load
+    window.addEventListener("load", calculateTotal);
 </script>
