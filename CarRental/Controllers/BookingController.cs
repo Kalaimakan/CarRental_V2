@@ -27,6 +27,7 @@ namespace CarRental.Controllers
                 CarModel = car.CarModel,
                 CarBrand = car.CarBrand,
                 CarImage = car.Images.FirstOrDefault()?.FileName,
+                PricePerDay = car.PricePerDay,
                 PickUpDate = DateTime.Now,
                 DropOffDate = DateTime.Now.AddDays(1),
                 TotalAmount = car.PricePerDay

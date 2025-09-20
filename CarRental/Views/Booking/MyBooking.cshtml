@@ -1,0 +1,36 @@
+﻿@model List<CarRental.Models.Booking>
+
+<div class="container mt-5 text-white">
+    <h2 class="mb-4">My Bookings</h2>
+
+    @if (!Model.Any())
+    {
+        <p>No bookings yet.</p>
+    }
+    else
+    {
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Car</th>
+                    <th>Pick-up</th>
+                    <th>Drop-off</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.Car.CarBrand @b.Car.CarModel</td>
+                        <td>@b.PickUpDate.ToShortDateString()</td>
+                        <td>@b.DropOffDate.ToShortDateString()</td>
+                        <td>$@b.TotalAmount</td>
+                        <td>@(b.Payment != null ? "Paid" : "Pending")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,10 +1,15 @@
-﻿@model CarRental.ViewModels.PaymentViewModel
+﻿@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+
+@model CarRental.ViewModels.PaymentViewModel
 
 <div class="container d-flex justify-content-center mt-5">
-    <div class="card p-4 shadow-lg" style="width: 400px;">
-        <h4 class="mb-3">Payment</h4>
+    <div class="card shadow-lg p-4 mx-auto" style="width: 400px; background: rgba(18,18,18,0.95); border: 1px solid #ff0000; border-radius: 15px;">
+        <h4 class="mb-3 text-center fw-bold text-danger">💳 Payment</h4>
 
-        <div class="mb-3">
+        <div class="mb-3 text-white">
             <strong>Car:</strong> @Model.CarModel <br />
             <strong>Dates:</strong> @Model.Dates <br />
             <strong>Total:</strong> $@Model.Total
@@ -14,7 +19,7 @@
             <input type="hidden" asp-for="BookingId" />
 
             <!-- Payment Method -->
-            <div class="mb-3">
+            <div class="mb-3 text-white">
                 <label class="fw-bold">Payment Method</label><br />
                 <input type="radio" name="Method" value="CreditDebit" checked /> Credit/Debit Card <br />
                 <input type="radio" name="Method" value="PayPal" /> PayPal <br />
@@ -25,17 +30,17 @@
             <div id="card-section">
                 <div class="mb-3">
                     <label>Cardholder Name</label>
-                    <input asp-for="CardHolder" class="form-control" />
+                    <input asp-for="CardHolder" class="form-control bg-dark text-white border-0 shadow-sm" />
                 </div>
 
                 <div class="mb-3">
                     <label>Card Number</label>
-                    <input asp-for="CardNumber" class="form-control" />
+                    <input asp-for="CardNumber" class="form-control bg-dark text-white border-0 shadow-sm" />
                 </div>
 
                 <div class="mb-3">
                     <label>CVV</label>
-                    <input asp-for="CVV" class="form-control" />
+                    <input asp-for="CVV" class="form-control bg-dark text-white border-0 shadow-sm" />
                 </div>
             </div>
 
@@ -43,23 +48,22 @@
             <div id="paypal-section" style="display:none;">
                 <div class="mb-3">
                     <label>PayPal Email</label>
-                    <input type="email" name="PayPalEmail" class="form-control" placeholder="example@paypal.com" />
+                    <input type="email" name="PayPalEmail" class="form-control bg-dark text-white border-0 shadow-sm" placeholder="example@paypal.com" />
                 </div>
             </div>
 
             <!-- Cash Section -->
             <div id="cash-section" style="display:none;">
-                <div class="alert alert-info p-2">
+                <div class="alert alert-danger p-2 text-center">
                     Please pay cash at the counter when picking up the car.
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success w-100">Pay Now</button>
+            <button type="submit" class="btn btn-card w-100 mt-3">Pay Now</button>
         </form>
     </div>
 </div>
 
-@section Scripts {
     <script>
         document.querySelectorAll("input[name='Method']").forEach(radio => {
             radio.addEventListener("change", function () {
@@ -69,4 +73,59 @@
             });
         });
     </script>
-}
+
+<style>
+    :root {
+        --primary-red: #ff0000;
+        --dark-bg: #121212;
+        --light-text: #f8f9fa;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Card */
+    .card {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(255,0,0,0.4);
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px 5px rgba(255,0,0,0.7);
+        }
+
+    /* Inputs */
+    input.form-control {
+        border-radius: 10px;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+
+        input.form-control:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255,0,0,0.6);
+        }
+
+    /* Buttons */
+    .btn-card {
+        background-color: var(--primary-red);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-card:hover {
+            background-color: #000;
+            color: var(--primary-red);
+            border: 1px solid var(--primary-red);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px 2px var(--primary-red);
+        }
+</style>
