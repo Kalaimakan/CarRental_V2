@@ -69,10 +69,16 @@ namespace CarRental.Migrations
                     b.Property<DateTime>("DropOffDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("PickUpDate")
+                    b.Property<DateTime>("PickupDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TotalAmount")
+                    b.Property<decimal>("PricePerDay")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -213,41 +219,6 @@ namespace CarRental.Migrations
                     b.ToTable("customers");
                 });
 
-            modelBuilder.Entity("CarRental.Models.Payment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BookingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CVV")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardHolder")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Method")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PaidOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PayPalEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique();
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("CarRental.Models.Booking", b =>
                 {
                     b.HasOne("CarRental.Models.Car", "Car")
@@ -276,22 +247,6 @@ namespace CarRental.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
-                });
-
-            modelBuilder.Entity("CarRental.Models.Payment", b =>
-                {
-                    b.HasOne("CarRental.Models.Booking", "Booking")
-                        .WithOne("Payment")
-                        .HasForeignKey("CarRental.Models.Payment", "BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-                });
-
-            modelBuilder.Entity("CarRental.Models.Booking", b =>
-                {
-                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("CarRental.Models.Car", b =>

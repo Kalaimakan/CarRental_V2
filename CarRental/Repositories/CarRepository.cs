@@ -47,12 +47,6 @@ namespace CarRental.Repositories
         public List<Car> GetAll() =>
             _db.cars.Include(c => c.Images).ToList();
 
-
-        public async Task<List<Car>> GetAllCarsAsync()
-        {
-            return await _db.cars.Include(c => c.Images).ToListAsync();
-        }
-
         public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
         {
             var query = _db.cars.AsQueryable();

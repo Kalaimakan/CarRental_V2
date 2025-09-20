@@ -7,8 +7,14 @@ namespace CarRental.Controllers
 {
     public class CustomerDashboardController : Controller
     {
-        private ICarService carService;
-        public CustomerDashboardController(ICarService service) => this.carService = service;
+        private readonly ICarService _carService;
+        private readonly IBookingService _bookingService;
+
+        public CustomerDashboardController(ICarService carService, IBookingService bookingService)
+        {
+            _carService = carService;
+            _bookingService = bookingService;
+        }
 
         [Authorize]
         public IActionResult Index()
@@ -26,18 +32,23 @@ namespace CarRental.Controllers
         // Browse cars page
         public IActionResult ShowAllCars()
         {
-            var cars = carService.GetAllCars();
-
-            if (cars == null)
-                cars = new List<CarRental.DTOs.CarDto>();
+            var cars = _carService.GetAllCars()
+        .Where(c => c.Status == true) 
+        .ToList();
 
             return View(cars);
         }
 
         // My bookings page
         public IActionResult MyBookings()
-        { 
-            return View();
+        {
+            var customerIdClaim = User.FindFirst("CustomerId");
+            if (customerIdClaim == null) return RedirectToAction("Login", "Account");
+
+            var customerId = Guid.Parse(customerIdClaim.Value);
+
+            var bookings = _bookingService.GetByCustomerId(customerId);
+            return View(bookings); 
         }
     }
 }

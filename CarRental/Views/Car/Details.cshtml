@@ -16,8 +16,7 @@
                             @for (int i = 0; i < Model.Images.Count; i++)
                             {
                                 <div class="carousel-item @(i == 0 ? "active" : "")">
-                                    <img src="~/images/@Model.Images[i].FileName" class="d-block w-100 rounded"
-                                         style="height:400px; object-fit: cover;" alt="Car Image @i">
+                                    <img src="~/images/@Model.Images[i].FileName" class="d-block w-100 card-img-top rounded" style="height:400px; object-fit: cover;" alt="Car Image @i">
                                 </div>
                             }
                         </div>
@@ -39,15 +38,15 @@
                 }
                 else
                 {
-                    <img src="~/images/default-car.png" class="d-block w-100 rounded" style="height:400px; object-fit:cover;" alt="Default Car">
+                    <img src="~/images/default-car.png" class="d-block w-100 card-img-top rounded" style="height:400px; object-fit:cover;" alt="Default Car">
                 }
             </div>
 
             <!-- Right: Details -->
             <div class="col-lg-6 d-flex flex-column justify-content-between">
                 <div>
-                    <h2 class="fw-bold text-warning">@Model.CarBrand @Model.CarModel</h2>
-                    <p class="text-secondary mb-4">@Model.Description</p>
+                    <h2 class="card-title text-warning">@Model.CarBrand @Model.CarModel</h2>
+                    <p class="card-text">@Model.Description</p>
 
                     <div class="row mb-3 text-light">
                         <div class="col-6">
@@ -73,12 +72,12 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="btn btn-secondary fw-bold rounded-pill px-4">← Back</a>
+                <div class="d-flex justify-content-between mt-4 button-container">
+                    <a asp-controller="CustomerDashboard" asp-action="ShowAllCars" class="btn btn-primary fw-bold rounded-pill px-4">← Back</a>
                     @if (Model.Status)
                     {
-                        <a asp-controller="Booking" asp-action="Book" asp-route-carId="@Model.Id"
-                           class="btn btn-detail fw-bold rounded-pill px-4">Book Now</a>
+                        <a asp-controller="Booking" asp-action="CreateBooking" asp-route-carId="@Model.Id"
+                           class="btn btn-primary fw-bold rounded-pill px-4">Book Now</a>
                     }
                 </div>
             </div>
@@ -89,6 +88,7 @@
 <style>
     :root {
         --primary-red: #ff0000;
+        --dark-red: #cc0000;
         --dark-bg: #121212;
         --light-text: #f8f9fa;
     }
@@ -97,56 +97,94 @@
         background-color: var(--dark-bg);
         color: var(--light-text);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
     }
 
+    /* Glass effect card */
     .car-detail-card {
-        background-color: var(--dark-bg);
-        border: 1px solid var(--primary-red);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05); /* glass */
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        border-radius: 20px;
         color: var(--light-text);
         overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
-        box-shadow: 0 0 10px rgba(255,0,0,0.3);
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        position: relative;
+        animation: fadeSlideIn 0.8s ease;
     }
 
         .car-detail-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 20px 10px rgba(255,0,0,0.6);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
         }
 
-    .carousel-inner img {
-        border-radius: 10px;
-        transition: transform 0.5s ease;
+    /* Carousel images */
+    .carousel-inner img,
+    .card-img-top {
+        border-radius: 15px;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
     }
 
-    .car-detail-card:hover .carousel-inner img {
+    .car-detail-card:hover .carousel-inner img,
+    .car-detail-card:hover .card-img-top {
         transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
     }
 
+    /* Badge glow */
     .glow-badge {
-        text-shadow: 0 0 5px #000;
         font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 15px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
     }
 
-    .text-secondary {
-        color: #adb5bd !important;
+    /* Title + text */
+    .card-title {
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
     }
 
-    /* 🔹 Buttons same size + hover effect */
-    .button-container .btn-detail {
-        background-color: var(--primary-red);
-        color: var(--light-text);
-        border: none;
+    .card-text {
+        color: #adb5bd;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Buttons */
+    .button-container .btn-primary {
+        background: rgba(255, 0, 0, 0.7);
+        border: 1px solid rgba(255, 0, 0, 0.5);
         font-weight: 600;
-        width: 48%;
-        text-align: center;
+        letter-spacing: 0.5px;
+        border-radius: 50px;
         transition: all 0.3s ease;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
     }
 
-        .button-container .btn-detail:hover {
-            background-color: transparent;
-            transform: translateY(-2px);
-            box-shadow: 0 0px 10px 3px var(--primary-red);
+        .button-container .btn-primary:hover {
+            background: rgba(255, 0, 0, 0.9);
+            color: #fff;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 1);
         }
 
+    /* Animations */
+    @@keyframes fadeSlideIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    }
 </style>

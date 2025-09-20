@@ -30,7 +30,7 @@ namespace CarRental.Database
         public DbSet<Customer> customers { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+
 
     }
 }
