@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div id="successAlert" class="alert alert-success">@Model.SuccessMessage</div>
+}
+
 <div class="container my-5">
     <div class="card shadow-lg rounded-4 p-4" style="background-color: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
-        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-        {
-            <div class="alert alert-success">@Model.SuccessMessage</div>
-        }
-
         <form asp-action="Contact" method="post">
             <div class="mb-3">
                 <label class="form-label text-white">Name</label>
@@ -43,3 +43,29 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+
+<style>
+    /* Smooth fade-out for success message */
+    #successAlert {
+        transition: opacity 0.5s ease;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Reset form fields on page load
+        const form = document.querySelector("form");
+        if (form) {
+            form.reset();
+        }
+
+        // Auto-hide success message after 3 seconds
+        const alert = document.getElementById("successAlert");
+        if (alert) {
+            setTimeout(() => {
+                alert.style.opacity = "0";
+                setTimeout(() => alert.remove(), 500); 
+            }, 3000);
+        }
+    });
+</script>

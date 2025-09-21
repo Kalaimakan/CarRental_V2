@@ -145,11 +145,111 @@
 
 <partial name="_ValidationScriptsPartial" />
 
-<!-- Flatpickr JS & CSS -->
-<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<<!-- Flatpickr Theme: Material Red -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_red.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@* 
+<style>
+    /* Transparent / Glassy Flatpickr */
+    .flatpickr-calendar {
+        background: rgba(18, 18, 18, 0.6) !important; /* transparent glass */
+        backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 0, 0, 0.4) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.6) !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
+    .flatpickr-day {
+        color: #fff !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+        transition: all 0.2s ease;
+    }
 
+        .flatpickr-day:hover {
+            background: rgba(255, 0, 0, 0.7) !important;
+            color: #fff !important;
+        }
+
+        .flatpickr-day.selected {
+            background: #ff0000 !important;
+            color: #fff !important;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8) !important;
+        }
+
+    .flatpickr-months, .flatpickr-weekdays {
+        background: rgba(18, 18, 18, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        color: #fff !important;
+        border-radius: 10px;
+    }
+
+    .flatpickr-time {
+        background: rgba(18, 18, 18, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border-top: 1px solid rgba(255,0,0,0.4);
+    }
+
+        .flatpickr-time input {
+            color: #fff !important;
+        }
+</style>
+ *@
+<style>
+    /* Transparent / Glassy Flatpickr - Premium Glow */
+    .flatpickr-calendar {
+        background: rgba(18, 18, 18, 0.5) !important; /* transparent glass */
+        backdrop-filter: blur(15px) !important;
+        border: 1px solid rgba(255, 0, 0, 0.4) !important;
+        border-radius: 15px !important;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5) !important;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+    }
+
+    .flatpickr-day {
+        color: #000000 !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease;
+    }
+
+        /* Hover effect - glowing red button */
+        .flatpickr-day:hover {
+            background: rgba(255, 0, 0, 0.8) !important;
+            color: #fff !important;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.8);
+            transform: scale(1.08);
+        }
+
+        /* Selected day - stronger glow */
+        .flatpickr-day.selected {
+            background: #ff0000 !important;
+            color: #fff !important;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 1);
+            transform: scale(1.1);
+        }
+
+    /* Month & Weekdays bar */
+    .flatpickr-months, .flatpickr-weekdays {
+        background: rgba(18, 18, 18, 0.6) !important;
+        backdrop-filter: blur(15px) !important;
+        color: #fff !important;
+        border-bottom: 1px solid rgba(255,0,0,0.3);
+    }
+
+    /* Time picker */
+    .flatpickr-time {
+        background: rgba(18, 18, 18, 0.5) !important;
+        backdrop-filter: blur(12px) !important;
+        border-top: 1px solid rgba(255,0,0,0.3);
+    }
+
+        .flatpickr-time input {
+            color: #fff !important;
+        }
+</style>
 
 <script>
     const pricePerDay = parseFloat(document.getElementById("PricePerDay").value);
