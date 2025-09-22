@@ -107,6 +107,22 @@ namespace CarRental.Services.Implementations
             await _repository.UpdateCustomerAsync(UpdateCustomer);
         }
 
+        public async Task UpdateCustomerProfileAsync(CustomerDto dto)
+        {
+            var UpdateCustomer = new Customer
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                PhoneNumber = dto.PhoneNumber,
+                Address = dto.Address,
+                Email = dto.Email,
+                LicenceNumber = dto.LicenceNumber,
+                UserName = dto.UserName,
+                Password = dto.Password
+            };
+            await _repository.UpdateCustomerProfileAsync(UpdateCustomer);
+        }
+
         public async Task DeleteCustomerAsync(Guid id)
         {
             var customer = await _repository.GetCustomerByIdAsync(id);
