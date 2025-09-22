@@ -47,6 +47,23 @@ namespace CarRental.Repositories.Implementations
             await _Dbcontext.SaveChangesAsync();
         }
 
+        public async Task UpdateCustomerProfileAsync(Customer customer)
+        {
+            var existingCustomer = await _Dbcontext.customers.FirstOrDefaultAsync(c => c.Id == customer.Id);
+
+            if (existingCustomer != null)
+            {
+                existingCustomer.Name = customer.Name;
+                existingCustomer.PhoneNumber = customer.PhoneNumber;
+                existingCustomer.Address = customer.Address;
+                existingCustomer.UserName = customer.UserName;
+                existingCustomer.Password = customer.Password;
+
+                await _Dbcontext.SaveChangesAsync();
+            }
+        }
+
+
         public async Task DeleteCustomerAsync(Customer customer)
         {
             _Dbcontext.customers.Remove(customer);

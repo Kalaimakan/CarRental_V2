@@ -25,19 +25,19 @@ namespace CarRental.Controllers
 
         //Testing Gmail OTP
 
-        [HttpGet]
-        public IActionResult TestEmail()
-        {
-            try
-            {
-                _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
-                return Content("Email sent successfully!");
-            }
-            catch (Exception ex)
-            {
-                return Content("Email sending failed: " + ex.Message);
-            }
-        }
+        //[HttpGet]
+        //public IActionResult TestEmail()
+        //{
+        //    try
+        //    {
+        //        _emailService.SendEmail("ut01482tic2024@gmail.com", "Test Email", "Hello, this is a test!");
+        //        return Content("Email sent successfully!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content("Email sending failed: " + ex.Message);
+        //    }
+        //}
 
 
         //register page
@@ -191,6 +191,7 @@ namespace CarRental.Controllers
 
 
             var otp = _otpService.GenerateOtp(dto.Email);
+            TempData["AdminregisterData"] = JsonSerializer.Serialize(dto);
 
             try
             {
@@ -220,25 +221,25 @@ namespace CarRental.Controllers
         {
             if (_otpService.VerifyOtp(model.Email, model.Otp))
             {
-                var dtoJson = TempData["RegisterData"] as string;
+                var dtoJson = TempData["AdminregisterData"] as string;
                 if (dtoJson != null)
                 {
-                    var registerData = JsonSerializer.Deserialize<CustomerViewModel>(dtoJson);
+                    var AdminregisterData = JsonSerializer.Deserialize<CustomerDto>(dtoJson);
                     var dto = new CustomerDto
                     {
-                        Name = registerData.Name,
-                        Address = registerData.Address,
-                        PhoneNumber = registerData.PhoneNumber,
-                        LicenceNumber = registerData.LicenceNumber,
-                        Email = registerData.Email,
-                        UserName = registerData.Username,
-                        Password = registerData.Password
+                        Name = AdminregisterData.Name,
+                        Address = AdminregisterData.Address,
+                        PhoneNumber = AdminregisterData.PhoneNumber,
+                        LicenceNumber = AdminregisterData.LicenceNumber,
+                        Email = AdminregisterData.Email,
+                        UserName = AdminregisterData.UserName,
+                        Password = AdminregisterData.Password
                     };
                     await _service.AddCustomerAsync(dto);
                     _emailService.SendEmail(
                 dto.Email,
                 $"Welcome to Our Family, {dto.Name}!",
-                $"Hello {dto.Name}, welcome aboard! Your login details:\n   Username: {dto.UserName}\n   Password: {dto.Password}\nWarm regards, Car Rental Team");
+                $"Hello {dto.Name}, welcome aboard! Your login details:\n   Username: {dto.UserName}\n  Password: {dto.Password}\nWarm regards, Car Rental Team");
                     TempData["SuccessMessage"] = $"{dto.Name} has been added successfully!";
                 }
                 return RedirectToAction("ViewCustomer");
@@ -246,6 +247,7 @@ namespace CarRental.Controllers
             ModelState.AddModelError("", "Invalid OTP");
             return View(model);
         }
+
 
         public async Task<IActionResult> CustomerDetail(Guid id)
         {
