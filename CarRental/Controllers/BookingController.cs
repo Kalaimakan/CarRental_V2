@@ -51,6 +51,13 @@ namespace CarRental.Controllers
             return RedirectToAction("MyBookings", "CustomerDashboard");
         }
 
+        [HttpGet]
+        public IActionResult GetAllBookings()
+        {
+            var bookings = _service.GetAll();
+            return View(bookings);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cancel(Guid id)
