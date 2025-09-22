@@ -47,7 +47,7 @@ namespace CarRental.Repositories
         public List<Car> GetAll() =>
             _db.cars.Include(c => c.Images).ToList();
 
-        public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
+        public async Task<List<Car>> SearchCarsAsync(string? brand, string? model, string? status)
         {
             var query = _db.cars.AsQueryable();
 
@@ -57,6 +57,8 @@ namespace CarRental.Repositories
             if (!string.IsNullOrWhiteSpace(model))
                 query = query.Where(c => c.CarModel.ToLower().Contains(model.ToLower()));
 
+            if (!string.IsNullOrWhiteSpace(status))
+                query = query.Where(c => c.Status.ToString().ToLower().Contains(status.ToLower()));
 
             return await query.Include(c => c.Images).ToListAsync();
         }

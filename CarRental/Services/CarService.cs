@@ -165,31 +165,9 @@ public class CarService : ICarService
         };
     }
 
-    private void SaveImages(List<IFormFile> files, Car car)
+    public async Task<List<Car>> SearchCarsAsync(string? brand, string? model, string? status)
     {
-        if (files == null) return;
-        foreach (var file in files)
-        {
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            var path = Path.Combine(env.WebRootPath, "images", fileName);
-            using var stream = new FileStream(path, FileMode.Create);
-            file.CopyTo(stream);
-
-            car.Images.Add(new CarImage { Id = Guid.NewGuid(), FileName = fileName, CarId = car.Id });
-        }
-    }
-
-    public async Task<List<Car>> SearchCarsAsync(string? brand, string? model)
-    {
-        var cars = await repo.SearchCarsAsync(brand, model);
-
-        // Mapping to CarDto if needed
-        return cars.Select(c => new Car
-        {
-            
-            CarBrand = c.CarBrand,
-            CarModel = c.CarModel,
-           
-        }).ToList();
+        var cars = await repo.SearchCarsAsync(brand, model, status);
+        return cars;
     }
 }

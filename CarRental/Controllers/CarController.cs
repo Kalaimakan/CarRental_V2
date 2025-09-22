@@ -93,13 +93,10 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchCar(string? brand, string? model)
+        public async Task<IActionResult> SearchCar(string? brand, string? model, string? status)
         {
-            var cars = await service.SearchCarsAsync(brand, model);
-            return View("SearchCar", cars); // Index view reuse pannalam
+            var cars = await service.SearchCarsAsync(brand, model, status);
+            return View("SearchCar", cars);
         }
-
-
     }
-
 }
