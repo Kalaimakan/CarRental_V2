@@ -1,5 +1,7 @@
 ﻿using CarRental.Interfaces;
 using CarRental.Services;
+using CarRental.Services.Implementations;
+using CarRental.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +11,7 @@ namespace CarRental.Controllers
     {
         private readonly ICarService _carService;
         private readonly IBookingService _bookingService;
+
 
         public CustomerDashboardController(ICarService carService, IBookingService bookingService)
         {
@@ -50,5 +53,8 @@ namespace CarRental.Controllers
             var bookings = _bookingService.GetByCustomerId(customerId);
             return View(bookings); 
         }
+
+        
+
     }
 }

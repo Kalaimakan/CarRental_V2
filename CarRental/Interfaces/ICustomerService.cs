@@ -13,6 +13,7 @@ namespace CarRental.Interfaces
         Task<DuplicateCheckResult> CheckDuplicateFieldsAsync(CustomerDto dto);
         Task AddCustomerAsync(CustomerDto dto);
         Task UpdateCustomerAsync(CustomerDto dto);
+        Task UpdateCustomerProfileAsync(CustomerDto dto);
         Task DeleteCustomerAsync(Guid id);
         Task<List<CustomerDto>> SearchCustomersAsync(string searchTerm);
         Task<Customer> AuthenticateAsync(LoginViewModel loginVm);
