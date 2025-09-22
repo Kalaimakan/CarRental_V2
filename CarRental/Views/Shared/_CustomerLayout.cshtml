@@ -277,33 +277,24 @@
                         <i class="bi bi-chat-dots"></i> <span>Feedback</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="/Help/Index" class="nav-link">
-                        <i class="bi bi-question-circle"></i> <span>Help & FAQ</span>
-                    </a>
-                </li>
             </ul>
 
-            <!-- Profile Dropdown -->
             <div class="profile mt-auto dropup">
                 <div class="dropdown w-100">
                     <button class="d-flex align-items-center gap-2 w-100 bg-transparent border-0 text-white dropdown-toggle"
                             id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 
-                        <!-- Avatar -->
                         @{
                             var fullName = User.Identity?.Name ?? "Guest User"; var initials = string.Join("", fullName.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(n => n[0])).ToUpper();
                         }
                         <div class="avatar bg-danger rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;"> @initials </div>
 
-                        <!-- Profile info (hidden collapsed, shown expanded) -->
                         <div class="profile-info text-start">
                             <strong>@User.Identity?.Name</strong><br />
                             <small class="text-muted">@User.FindFirst("Email")?.Value</small>
                         </div>
                     </button>
 
-                    <!-- Dropdown Menu -->
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow w-100"
                         aria-labelledby="profileDropdown">
                         <li>
